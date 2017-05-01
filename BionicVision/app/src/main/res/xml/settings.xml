@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/settings_device">
+
+        <CheckBoxPreference
+            android:key="standalone"
+            android:title="@string/settings_standalone"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="with_laptop"
+            android:title="@string/settings_withLaptop"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_testType">
+
+        <SwitchPreference
+            android:key="phosphenes"
+            android:title="@string/settings_phosphenes"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:key="depth_perception"
+            android:title="@string/settings_depth"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
