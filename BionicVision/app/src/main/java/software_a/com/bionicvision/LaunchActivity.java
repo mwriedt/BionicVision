@@ -14,38 +14,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.support.annotation.Nullable;
 
-//public class LaunchActivity extends AppCompatActivity {
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_launch);
-//    }
-//
-//    public void goToCamera(View v) {
-//        startActivity(new Intent(LaunchActivity.this, CameraActivity.class));
-//    }
-//
-//    public void goToSettings(View v) {
-//        startActivity(new Intent(LaunchActivity.this, SettingsActivity.class));
-//    }
-//
-//    public void goToAbout(View v) {
-//        startActivity(new Intent(LaunchActivity.this, AboutActivity.class));
-//    }
-//
-//    /**
-//     * A native method that is implemented by the 'native-lib' native library,
-//     * which is packaged with this application.
-//     */
-//    public native String stringFromJNI();
-//
-//    // Used to load the 'native-lib' library on application startup.
-//    static {
-//        System.loadLibrary("native-lib");
-//    }
-//}
-
 public class LaunchActivity extends AppCompatActivity {
 
     private static final int RESULT_SETTINGS = 1;
@@ -54,6 +22,18 @@ public class LaunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+    }
+
+    public void goToCamera(View v) {
+        startActivity(new Intent(LaunchActivity.this, CameraActivity.class));
+    }
+
+    public void goToSettings(View v) {
+        startActivity(new Intent(LaunchActivity.this, SettingsActivity.class));
+    }
+
+    public void goToAbout(View v) {
+        startActivity(new Intent(LaunchActivity.this, AboutActivity.class));
     }
 
     @Override
@@ -71,5 +51,16 @@ public class LaunchActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    /*
+     * A native method that is implemented by the 'native-lib' native library,
+     * which is packaged with this application.
+     */
+    public native String stringFromJNI();
+
+    // Used to load the 'native-lib' library on application startup.
+    static {
+        System.loadLibrary("native-lib");
     }
 }
