@@ -27,8 +27,6 @@
             android:key="depth_perception"
             android:title="@string/settings_depth"
             android:defaultValue="false"/>
-
     </PreferenceCategory>
-
 
 </PreferenceScreen>
