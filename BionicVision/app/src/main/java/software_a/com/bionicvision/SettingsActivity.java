@@ -1,13 +1,25 @@
 package software_a.com.bionicvision;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
 
-public class SettingsActivity extends AppCompatActivity {
-
+public class SettingsActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new MainSettingsFragment())
+                .commit();
+    }
+
+    public static class MainSettingsFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.settings);
+        }
     }
 }
+

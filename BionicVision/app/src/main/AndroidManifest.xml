@@ -17,8 +17,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".CameraActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".AboutActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_scrolling"
+            android:parentActivityName=".LaunchActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="software_a.com.bionicvision.LaunchActivity" />
+        </activity>
     </application>
 
 </manifest>
