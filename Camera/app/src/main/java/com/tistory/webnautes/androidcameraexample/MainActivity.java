@@ -1,5 +1,5 @@
 /*
- *  https://github.com/josnidhin/Android-Camera-Example에 있는 코드를 수정했습니다.
+ *  https://github.com/josnidhin/Android-Camera-Example has been fixed
 */
 
 package com.tistory.webnautes.androidcameraexample;
@@ -115,14 +115,6 @@ public class MainActivity extends AppCompatActivity {
             ((FrameLayout) findViewById(R.id.layout)).addView(preview);
             preview.setKeepScreenOn(true);
 
-            /* 프리뷰 화면 눌렀을 때  사진을 찍음
-            preview.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-                    camera.takePicture(shutterCallback, rawCallback, jpegCallback);
-                }
-            });*/
         }
 
         preview.setCamera(null);
@@ -162,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         ctx = this;
         mActivity = this;
 
-        //상태바 없애기
+        //remove status bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -182,9 +174,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //API 23 이상이면
-                                                                    // 런타임 퍼미션 처리 필요
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //If API level is upper 23, runtime permission required
+                                                                   
                 int hasCameraPermission = ContextCompat.checkSelfPermission(this,
                                                 Manifest.permission.CAMERA);
                 int hasWriteExternalStoragePermission =
@@ -193,10 +184,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if ( hasCameraPermission == PackageManager.PERMISSION_GRANTED
                         && hasWriteExternalStoragePermission==PackageManager.PERMISSION_GRANTED){
-                    ;//이미 퍼미션을 가지고 있음
+                    ;//Already, permission has been guaranted
                 }
                 else {
-                    //퍼미션 요청
+                    //request permission
                     ActivityCompat.requestPermissions( this,
                             new String[]{Manifest.permission.CAMERA,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -265,35 +256,35 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-    //참고 : http://stackoverflow.com/q/37135675
+    //Image process : http://stackoverflow.com/q/37135675
     PictureCallback jpegCallback = new PictureCallback() {
         public void onPictureTaken(byte[] data, Camera camera) {
 
-            //이미지의 너비와 높이 결정
+            //Width and height for image
             int w = camera.getParameters().getPictureSize().width;
             int h = camera.getParameters().getPictureSize().height;
 
             int orientation = setCameraDisplayOrientation(MainActivity.this,
                     CAMERA_FACING, camera);
 
-            //byte array를 bitmap으로 변환
+            //byte array converts to bitmap
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             Bitmap bitmap = BitmapFactory.decodeByteArray( data, 0, data.length, options);
             //int w = bitmap.getWidth();
             //int h = bitmap.getHeight();
 
-            //이미지를 디바이스 방향으로 회전
+            //image rotation by device motion
             Matrix matrix = new Matrix();
             matrix.postRotate(orientation);
             bitmap =  Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
 
-            //bitmap을 byte array로 변환
+            //bitmap converts to byte array
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             byte[] currentData = stream.toByteArray();
 
-            //파일로 저장
+            //save as file
             new SaveImageTask().execute(currentData);
             resetCam();
             Log.d(TAG, "onPictureTaken - jpeg");
@@ -389,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
             if ( hasCameraPermission == PackageManager.PERMISSION_GRANTED
                     && hasWriteExternalStoragePermission == PackageManager.PERMISSION_GRANTED ){
 
-                //이미 퍼미션을 가지고 있음
+                //Already, permission obtained
                 doRestart(this);
             }
             else{
@@ -418,13 +409,13 @@ public class MainActivity extends AppCompatActivity {
         if ( (hasCameraPermission == PackageManager.PERMISSION_DENIED && cameraRationale)
              || (hasWriteExternalStoragePermission== PackageManager.PERMISSION_DENIED
                 && writeExternalStorageRationale))
-            showDialogForPermission("앱을 실행하려면 퍼미션을 허가하셔야합니다.");
+            showDialogForPermission("Permission required to open application");
 
         else if ( (hasCameraPermission == PackageManager.PERMISSION_DENIED && !cameraRationale)
                 || (hasWriteExternalStoragePermission== PackageManager.PERMISSION_DENIED
                 && !writeExternalStorageRationale))
-            showDialogForPermissionSetting("퍼미션 거부 + Don't ask again(다시 묻지 않음) " +
-                    "체크 박스를 설정한 경우로 설정에서 퍼미션 허가해야합니다.");
+            showDialogForPermissionSetting("permission rejection + Don't ask again" +
+                    "permission required from setting if checkbox is checked.");
 
         else if ( hasCameraPermission == PackageManager.PERMISSION_GRANTED
                 || hasWriteExternalStoragePermission== PackageManager.PERMISSION_GRANTED ) {
@@ -437,12 +428,12 @@ public class MainActivity extends AppCompatActivity {
     private void showDialogForPermission(String msg) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("알림");
+        builder.setTitle("Alert");
         builder.setMessage(msg);
         builder.setCancelable(false);
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                //퍼미션 요청
+                //Permission request
                 ActivityCompat.requestPermissions( MainActivity.this,
                         new String[]{Manifest.permission.CAMERA,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -450,7 +441,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 finish();
             }
@@ -461,10 +452,10 @@ public class MainActivity extends AppCompatActivity {
     private void showDialogForPermissionSetting(String msg) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("알림");
+        builder.setTitle("Alert");
         builder.setMessage(msg);
         builder.setCancelable(true);
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
                 Intent myAppSettings = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
@@ -474,7 +465,7 @@ public class MainActivity extends AppCompatActivity {
                 mActivity.startActivity(myAppSettings);
             }
         });
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 finish();
             }
