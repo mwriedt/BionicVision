@@ -26,11 +26,6 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     // Loads camera view of OpenCV for us to use. This lets us see using OpenCV
     private CameraBridgeViewBase mOpenCvCameraView;
 
-    // These variables are used (at the moment) to fix camera orientation from 270degree to 0degree
-    Mat mRgba;
-    Mat mRgbaF;
-    Mat mRgbaT;
-
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -95,24 +90,39 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     }
 
     public void onCameraViewStarted(int width, int height) {
-
-        mRgba = new Mat(height, width, CvType.CV_8UC4);
-        mRgbaF = new Mat(height, width, CvType.CV_8UC4);
-        mRgbaT = new Mat(width, width, CvType.CV_8UC4);
     }
 
     public void onCameraViewStopped() {
-        mRgba.release();
     }
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+        Mat frame = inputFrame.gray();
 
-        mRgba = inputFrame.rgba();
-        // Rotate mRgba 90 degrees
-        Core.transpose(mRgba, mRgbaT);
-        Imgproc.resize(mRgbaT, mRgbaF, mRgbaF.size(), 0,0, 0);
-        Core.flip(mRgbaF, mRgba, 1 );
+        // split each frame into 64 boxes using rows, cols, and an index
+        int numRows = 8;
+        int numCols = 8;
+        int gridIndex = 1;
 
-        return mRgba; // This function must return
+        // create a new box based on the width and height of the frame.
+        // each loop, the gridBox will be adjusted so that all regions
+        // are tested for intensity values before being added to the
+        // avgIntent array.
+        // (this prevents many gridBox objects from having to be made)
+        double[] pxIntent;
+
+        pxIntent = frame.get(0, 0);
+
+        // stores the average pixel intensity for each region in a 1D array
+        double avgIntent[] = new double[numRows * numCols];
+
+        frame.put(0, 0, pxIntent);
+
+        Log.i(TAG, "Pixel Intensity: " + pxIntent);
+
+        return frame;
+    }
+
+    public void generateAverage(CvCameraViewFrame inputFrame) {
+
     }
 }
