@@ -94,29 +94,42 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     }
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-        return inputFrame.gray();
+        Mat frame = inputFrame.gray();
 
-//        // split each frame into 64 boxes using rows, cols, and an index
-//        int numRows = 8;
-//        int numCols = 8;
-//        int gridIndex = 1;
-//
-//        // create a new box based on the width and height of the frame.
-//        // each loop, the gridBox will be adjusted so that all regions
-//        // are tested for intensity values before being added to the
-//        // avgIntent array.
-//        // (this prevents many gridBox objects from having to be made)
-//        double[] pxIntent;
-//
-//        pxIntent = frame.get(0, 0);
-//
-//        // stores the average pixel intensity for each region in a 1D array
-//        double avgIntent[] = new double[numRows * numCols];
-//
-//        frame.put(0, 0, pxIntent);
-//
-//        Log.i(TAG, "Pixel Intensity: " + pxIntent);
-//
-//        return frame;
+        int numRows = 8;
+        int numCols = 8;
+        int gridIndexX = 0;
+        int gridIndexY = 0;
+
+        double[] temp;
+        int[][] avgIntent = new int[numRows][numCols];
+
+        for (int a = 0; a < numCols * numRows; a++) {
+            for (int i = (frame.height() / numCols) * gridIndexY; i < (frame.height() / numCols) * (gridIndexY + 1); i += 9) {
+                for (int j = (frame.width() / numRows) * gridIndexX; j < (frame.width() / numRows) * (gridIndexX + 1); j += 19) {
+                    temp = frame.get(i, j);
+                    avgIntent[gridIndexY][gridIndexX] += temp[0];
+
+                }
+            }
+
+            avgIntent[gridIndexY][gridIndexX] /= 9;
+
+            gridIndexX++;
+
+            if (gridIndexX > numRows - 1) {
+                gridIndexX = 0;
+                gridIndexY++;
+            }
+        }
+
+        for (int p = 0; p < numCols; p++)
+        {
+            for (int q = 0; q < numRows; q++) {
+                Log.i(TAG, "Average Intensity: " + avgIntent[p][q]);
+            }
+        }
+
+        return frame;
     }
 }
