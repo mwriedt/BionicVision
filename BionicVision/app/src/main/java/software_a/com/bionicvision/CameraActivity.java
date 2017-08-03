@@ -26,24 +26,19 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     // Loads camera view of OpenCV for us to use. This lets us see using OpenCV
     private CameraBridgeViewBase mOpenCvCameraView;
 
-    // These variables are used (at the moment) to fix camera orientation from 270degree to 0degree
-    Mat mRgba;
-    Mat mRgbaF;
-    Mat mRgbaT;
-
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
             switch (status) {
-                case LoaderCallbackInterface.SUCCESS:
-                {
+                case LoaderCallbackInterface.SUCCESS: {
                     Log.i(TAG, "OpenCV loaded successfully");
                     mOpenCvCameraView.enableView();
-                } break;
-                default:
-                {
+                }
+                break;
+                default: {
                     super.onManagerConnected(status);
-                } break;
+                }
+                break;
             }
         }
     };
@@ -54,30 +49,27 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "called onCreate");
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.activity_camera);
 
         mOpenCvCameraView = (JavaCameraView) findViewById(R.id.camera_activity_java_surface_view);
-
+        mOpenCvCameraView.setMaxFrameSize(320, 240);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
 
         mOpenCvCameraView.setCvCameraViewListener(this);
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
         if (mOpenCvCameraView != null)
             mOpenCvCameraView.disableView();
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         if (!OpenCVLoader.initDebug()) {
             Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
@@ -96,23 +88,48 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
     public void onCameraViewStarted(int width, int height) {
 
-        mRgba = new Mat(height, width, CvType.CV_8UC4);
-        mRgbaF = new Mat(height, width, CvType.CV_8UC4);
-        mRgbaT = new Mat(width, width, CvType.CV_8UC4);
     }
 
     public void onCameraViewStopped() {
-        mRgba.release();
     }
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+        Mat frame = inputFrame.gray();
 
-        mRgba = inputFrame.rgba();
-        // Rotate mRgba 90 degrees
-        Core.transpose(mRgba, mRgbaT);
-        Imgproc.resize(mRgbaT, mRgbaF, mRgbaF.size(), 0,0, 0);
-        Core.flip(mRgbaF, mRgba, 1 );
+        int numRows = 8;
+        int numCols = 8;
+        int gridIndexX = 0;
+        int gridIndexY = 0;
 
-        return mRgba; // This function must return
+        double[] temp;
+        int[][] avgIntent = new int[numRows][numCols];
+
+        for (int a = 0; a < numCols * numRows; a++) {
+            for (int i = (frame.height() / numCols) * gridIndexY; i < (frame.height() / numCols) * (gridIndexY + 1); i += 9) {
+                for (int j = (frame.width() / numRows) * gridIndexX; j < (frame.width() / numRows) * (gridIndexX + 1); j += 19) {
+                    temp = frame.get(i, j);
+                    avgIntent[gridIndexY][gridIndexX] += temp[0];
+
+                }
+            }
+
+            avgIntent[gridIndexY][gridIndexX] /= 9;
+
+            gridIndexX++;
+
+            if (gridIndexX > numRows - 1) {
+                gridIndexX = 0;
+                gridIndexY++;
+            }
+        }
+
+        for (int p = 0; p < numCols; p++)
+        {
+            for (int q = 0; q < numRows; q++) {
+                Log.i(TAG, "Average Intensity: " + avgIntent[p][q]);
+            }
+        }
+
+        return frame;
     }
 }
