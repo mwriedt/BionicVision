@@ -1,6 +1,10 @@
 [
     {
-        "outputFile": "C:\\Users\\Justin\\Desktop\\2017-S1\\SWE40001\\Source\\BionicVision\\BionicVision\\opencv\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "outputFile": "/Users/aaron/Documents/Git/BionicVision/BionicVision/opencv/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
+        "map": []
+    },
+    {
+        "outputFile": "/Users/aaron/Documents/Git/BionicVision/BionicVision/C:\\Users\\Justin\\Desktop\\2017-S1\\SWE40001\\Source\\BionicVision\\BionicVision\\opencv\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": []
     }
 ]
