@@ -42,7 +42,7 @@ public class PhospheneRendering {
         int count = 0;
 
         org.opencv.core.Point positions[] = new org.opencv.core.Point[noOfCircles];
-        int spacingW = width/noOfCircles * 3/4;
+        int spacingW = (width/noOfCircles * 7/8)/2;
         int spacingH = height/noOfCircles * 3/4;
 
         // Define Positions
@@ -62,6 +62,14 @@ public class PhospheneRendering {
         // Call draw function for each circle
         for (int i = 0; i < noOfCircles; i++)
         {
+            positions[i].y += spacingH * 3;
+            intensity = new Scalar(colour[i]);
+            org.opencv.imgproc.Imgproc.circle(temp, positions[i], radius, intensity, -1);
+        }
+
+        for (int i = 0; i < noOfCircles; i++)
+        {
+            positions[i].x += 2*(spacingW + (noOfRows) * spacingW) - 6*(radius + spacingH);
             intensity = new Scalar(colour[i]);
             org.opencv.imgproc.Imgproc.circle(temp, positions[i], radius, intensity, -1);
         }

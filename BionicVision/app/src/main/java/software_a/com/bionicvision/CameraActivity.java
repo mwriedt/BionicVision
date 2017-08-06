@@ -21,6 +21,7 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
 public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2 {
@@ -80,7 +81,14 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
         mOpenCvCameraView = (JavaCameraView) findViewById(R.id.camera_activity_java_surface_view);
         mOpenCvCameraView.setMaxFrameSize(320, 240);
+
+//        android.graphics.Rect screen = new android.graphics.Rect();
+//        mOpenCvCameraView.getWindowVisibleDisplayFrame(screen);
+//        mOpenCvCameraView.setMaxFrameSize(screen.width(), screen.height());
+
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
+
+
 
         mOpenCvCameraView.setCvCameraViewListener(this);
     }
