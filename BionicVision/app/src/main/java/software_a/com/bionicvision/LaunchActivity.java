@@ -1,21 +1,13 @@
 package software_a.com.bionicvision;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.support.annotation.Nullable;
 
 public class LaunchActivity extends AppCompatActivity {
-
     private static final int RESULT_SETTINGS = 1;
 
     @Override
@@ -51,16 +43,5 @@ public class LaunchActivity extends AppCompatActivity {
                 break;
         }
         return true;
-    }
-
-    /*
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    public native String stringFromJNI();
-
-    // Used to load the 'native-lib' library on application startup.
-    static {
-        System.loadLibrary("native-lib");
     }
 }

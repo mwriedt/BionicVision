@@ -1,13 +1,8 @@
 package software_a.com.bionicvision;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
@@ -18,11 +13,8 @@ import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.core.Rect;
-import org.opencv.imgproc.Imgproc;
 
 public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2 {
 
