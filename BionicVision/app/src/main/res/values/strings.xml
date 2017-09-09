@@ -19,4 +19,7 @@
 
     <string name="btn_confirm">Confirm</string>
     <string name="btn_camera">Camera</string>
+
+    <string name="aboutText">Bionic Vision App simulates  </string>
+    <string name="websiteLink">For more information, visit <a href="www.bionicvision.org.au">Bionic Vision Australia</a></string>
 </resources>
