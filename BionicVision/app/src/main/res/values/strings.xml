@@ -20,6 +20,11 @@
     <string name="btn_confirm">Confirm</string>
     <string name="btn_camera">Camera</string>
 
-    <string name="aboutText">Bionic Vision App simulates  </string>
-    <string name="websiteLink">For more information, visit <a href="www.bionicvision.org.au">Bionic Vision Australia</a></string>
+    <string name="aboutText">Bionic Vision App is designed to simulate bionic vision which will be
+                             used for people with retinal dystrophies in the future. \n \n
+                             The user will see the rendered image captured from camera, which will
+                             be processed into a set of phosphense on the screen.
+    </string>
+
+    <string name="authors">Created by: \n Aaron Caratelli, Heejoo Kim, Jinsu Park, Justin Adams, and Mitchell Wreidt</string>
 </resources>

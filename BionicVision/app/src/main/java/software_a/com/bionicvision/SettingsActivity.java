@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -25,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void initialiseUI()
     {
         Button btnConfirm = (Button) findViewById(R.id.btn_confirm);
-        Button btnCamera = (Button) findViewById(R.id.btn_camera);
+        ImageButton btnCamera = (ImageButton) findViewById(R.id.btn_camera);
         btnConfirm.setOnClickListener(confirmBtnListener);
         btnCamera.setOnClickListener(cameraBtnListener);
     }
