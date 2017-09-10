@@ -26,5 +26,8 @@
                              be processed into a set of phosphense on the screen.
     </string>
 
-    <string name="authors">Created by: \n Aaron Caratelli, Heejoo Kim, Jinsu Park, Justin Adams, and Mitchell Wreidt</string>
+    <string name="creators">Creators
+                            \n Aaron Caratelli, Heejoo Kim, Jinsu Park, Justin Adams, and Mitchell Wreidt
+                            \n\n \u00a9 Copyright 2017 Bionic Vision
+    </string>
 </resources>
