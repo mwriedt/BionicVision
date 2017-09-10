@@ -3,6 +3,7 @@ package software_a.com.bionicvision;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -26,7 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void initialiseUI()
     {
         Button btnConfirm = (Button) findViewById(R.id.btn_confirm);
-        ImageButton btnCamera = (ImageButton) findViewById(R.id.btn_camera);
+        Button btnCamera = (Button) findViewById(R.id.btn_camera);
         btnConfirm.setOnClickListener(confirmBtnListener);
         btnCamera.setOnClickListener(cameraBtnListener);
     }
@@ -37,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
         public void onClick(View v)
         {
             Spinner algorithmView = (Spinner) findViewById(R.id.spinner);
-            String algorithmText = algorithmView.toString();
+            String algorithmText = algorithmView.getSelectedItem().toString();
 
             settingsGlobal = saveSettings(algorithmText);
         }
@@ -62,10 +63,13 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void goToCamera(Bundle settings)
     {
-        Intent dataIntent = new Intent();
-        dataIntent.setClass(getApplicationContext(), software_a.com.bionicvision.CameraActivity.class);
-        dataIntent.putExtras(settings);
 
-        startActivity(dataIntent);
+        Log.i("TAG", "Settings: " + settings.getString("Algorithm"));
+
+        Intent dataSettings = new Intent();
+        dataSettings.setClass(getApplicationContext(), software_a.com.bionicvision.CameraActivity.class);
+        dataSettings.putExtras(settings);
+
+        startActivity(dataSettings);
     }
 }

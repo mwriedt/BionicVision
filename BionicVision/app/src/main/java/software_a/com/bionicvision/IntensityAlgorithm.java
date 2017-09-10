@@ -1,16 +1,14 @@
 package software_a.com.bionicvision;
 
-import android.util.Log;
-
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
-/**
- * Created by Justin on 5/09/2017.
- */
-
-public class IntensityAlgorithm extends Algorithm
+class IntensityAlgorithm extends Algorithm
 {
+    IntensityAlgorithm()
+    {
+        super.setName("Intensity");
+    }
 
     @Override
     Mat process(Mat frame)

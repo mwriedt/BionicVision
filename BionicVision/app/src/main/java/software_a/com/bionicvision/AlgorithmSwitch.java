@@ -1,19 +1,21 @@
 package software_a.com.bionicvision;
 
-/**
- * Created by Justin on 5/09/2017.
- */
-
-public class AlgorithmSwitch
+class AlgorithmSwitch
 {
-    public AlgorithmSwitch()
+    public static Algorithm choose(String algorithm)
     {
-
-    }
-
-    public static Algorithm choose()
-    {
-        //switch()
+        // the AlgorithmSwitch class is used to generate an algorithm for the camera frame.
+        // depending on the option selected in the settings activity, the case will change
+        // and a certain algorithm will be rendered to the screen.
+        switch(algorithm)
+        {
+            case ("Intensity"):
+                return new IntensityAlgorithm();
+            case ("Edge Detection"):
+                return new EdgeDetectionAlgorithm();
+            case ("Blank"):
+                return new BlankAlgorithm();
+        }
         return null;
     }
 }

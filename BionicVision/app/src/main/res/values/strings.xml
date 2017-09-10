@@ -17,7 +17,7 @@
         <item>Edge Detection</item>
     </string-array>
 
-    <string name="btn_confirm">Confirm</string>
+    <string name="btn_confirm">Confirm Settings</string>
     <string name="btn_camera">Camera</string>
 
     <string name="aboutText">Bionic Vision App is designed to simulate bionic vision which will be
