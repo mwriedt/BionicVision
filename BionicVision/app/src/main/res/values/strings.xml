@@ -19,4 +19,15 @@
 
     <string name="btn_confirm">Confirm</string>
     <string name="btn_camera">Camera</string>
+
+    <string name="aboutText">Bionic Vision App is designed to simulate bionic vision which will be
+                             used for people with retinal dystrophies in the future. \n \n
+                             The user will see the rendered image captured from camera, which will
+                             be processed into a set of phosphense on the screen.
+    </string>
+
+    <string name="creators">Creators
+                            \n Aaron Caratelli, Heejoo Kim, Jinsu Park, Justin Adams, and Mitchell Wreidt
+                            \n\n \u00a9 Copyright 2017 Bionic Vision
+    </string>
 </resources>
