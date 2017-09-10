@@ -81,9 +81,6 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 //        mOpenCvCameraView.setMaxFrameSize(screen.width(), screen.height());
 
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
-
-
-
         mOpenCvCameraView.setCvCameraViewListener(this);
     }
 
@@ -123,10 +120,22 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         Mat frame = inputFrame.gray();
         Mat intensityMap = intensity.process(frame);
 
-        AlgorithmSwitch theSwitch = new AlgorithmSwitch();
+        Bundle settingsBundle = getIntent().getExtras();
+        String alg = settingsBundle.getString("Algorithm");
 
-        Mat dots = renderDots.Render(intensityMap, 2560, 1440, 64, frame);
+        AlgorithmSwitch theSwitch = new AlgorithmSwitch();
+        Algorithm algorithm = theSwitch.choose(alg);
+
+        Log.i("TAG", "Algorithm Name: " + algorithm.getName());
+
+        if (algorithm.getName() == "Intensity")
+        {
+            Mat dots = renderDots.Render(intensityMap, 2560, 1440, 64, frame);
+            return dots;
+        }
+
+        return frame;
+
         //DisplayMetrics displayMetrics = new DisplayMetrics();
-        return dots; //frame;
     }
 }
