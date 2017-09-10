@@ -45,7 +45,11 @@
         <activity
             android:label="@string/about"
             android:name=".AboutActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="software_a.com.bionicvision.LaunchActivity" />
+        </activity>
 
         <activity
             android:label="@string/settings"
