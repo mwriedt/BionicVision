@@ -64,7 +64,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void goToCamera(Bundle settings)
     {
 
-        Log.i("TAG", "Settings: " + settings.getString("Algorithm"));
+        //Log.i("TAG", "Settings: " + settings.getString("Algorithm"));
 
         Intent dataSettings = new Intent();
         dataSettings.setClass(getApplicationContext(), software_a.com.bionicvision.CameraActivity.class);

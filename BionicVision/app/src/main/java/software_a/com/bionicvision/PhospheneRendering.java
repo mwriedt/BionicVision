@@ -13,6 +13,7 @@ import org.opencv.core.*;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.*;
+import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Imgproc.*;
 
 /**
@@ -36,9 +37,10 @@ public class PhospheneRendering {
         // Initialise Variables
         double noOfRows = Math.sqrt(noOfCircles);
         double noOfColumns = noOfRows;
-        int radius = 5;
+        int maxRad = 5;
+        int radius = 255/maxRad;
         Scalar intensity = new Scalar(0);
-        double[] colour = new double[64];
+        double[] colour = new double[width*height];
         int count = 0;
 
         org.opencv.core.Point positions[] = new org.opencv.core.Point[noOfCircles];
@@ -64,16 +66,27 @@ public class PhospheneRendering {
         {
             positions[i].y += spacingH * 3;
             intensity = new Scalar(colour[i]);
-            org.opencv.imgproc.Imgproc.circle(temp, positions[i], radius, intensity, -1);
+            int phospheneRadius = (int)intensity.val[0]/radius;
+            org.opencv.imgproc.Imgproc.circle(temp, positions[i], phospheneRadius, intensity, -1);
         }
 
         for (int i = 0; i < noOfCircles; i++)
         {
-            positions[i].x += 2*(spacingW + (noOfRows) * spacingW) - 6*(radius + spacingH);
+            positions[i].x += 2*(spacingW + (noOfRows) * spacingW) - 6*(maxRad + spacingH);
             intensity = new Scalar(colour[i]);
-            org.opencv.imgproc.Imgproc.circle(temp, positions[i], radius, intensity, -1);
+            //Imgproc.cvtColor(data,data, Imgproc.COLOR_GRAY2RGBA);
+            //Get radius for Phosphene rendering based on Mat value
+            int phospheneRadius = (int)intensity.val[0]/radius;
+            org.opencv.imgproc.Imgproc.circle(temp, positions[i], phospheneRadius, intensity, -1);
         }
 
+        temp = GaussianBlur(temp, new Size(9,9));
         return temp;
+    }
+
+    Mat GaussianBlur(Mat data, Size blur)
+    {
+        Imgproc.GaussianBlur(data,data,blur,3);
+        return data;
     }
 }
