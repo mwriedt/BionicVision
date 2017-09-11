@@ -130,7 +130,7 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
         if (algorithm.getName() == "Intensity")
         {
-            Mat dots = renderDots.RenderGrid(intensityMap, 2560, 1440, 64, frame);
+            Mat dots = renderDots.RenderGrid(intensityMap, 320, 240, 64, frame);
             return dots;
         }
 
