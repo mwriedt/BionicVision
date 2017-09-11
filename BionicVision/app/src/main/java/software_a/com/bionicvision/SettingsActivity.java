@@ -26,6 +26,12 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void initialiseUI()
     {
+        Parser parse = new Parser(getApplicationContext());
+        StringBuilder phosFileOutput = parse.readFile();
+        String[] phosFileStr = phosFileOutput.toString().split(",");
+
+        Log.d("PHOS", "Phosphenes: " + phosFileStr[0] + " " + phosFileStr[1]);
+
         Button btnConfirm = (Button) findViewById(R.id.btn_confirm);
         Button btnCamera = (Button) findViewById(R.id.btn_camera);
         btnConfirm.setOnClickListener(confirmBtnListener);

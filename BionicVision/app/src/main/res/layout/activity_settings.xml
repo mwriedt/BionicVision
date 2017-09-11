@@ -21,6 +21,16 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <CheckBox
+        android:id="@+id/chk_Load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/chk_load"
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="8dp"/>
+
     <Button
         android:id="@+id/btn_confirm"
         android:layout_width="wrap_content"
@@ -29,7 +39,7 @@
         android:text="@string/btn_confirm"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/btn_camera"
-        app:layout_constraintTop_toBottomOf="@+id/spinner"/>
+        app:layout_constraintTop_toBottomOf="@+id/chk_Load"/>
 
     <Button
         android:id="@+id/btn_camera"
@@ -39,5 +49,5 @@
         android:text="@string/btn_camera"
         app:layout_constraintLeft_toRightOf="@+id/btn_confirm"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner"/>
+        app:layout_constraintTop_toBottomOf="@+id/chk_Load"/>
 </android.support.constraint.ConstraintLayout>
