@@ -93,8 +93,15 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         Bundle settingsBundle = getIntent().getExtras();
         String alg = settingsBundle.getString("Algorithm");
 
-        AlgorithmSwitch theSwitch = new AlgorithmSwitch();
-        algorithm = theSwitch.choose(alg);
+        if (alg == null)
+        {
+            algorithm = new BlankAlgorithm();
+        }
+        else
+        {
+            AlgorithmSwitch theSwitch = new AlgorithmSwitch();
+            algorithm = theSwitch.choose(alg);
+        }
     }
 
     @Override
