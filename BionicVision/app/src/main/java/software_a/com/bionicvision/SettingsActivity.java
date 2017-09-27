@@ -11,9 +11,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
-public class SettingsActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
-    Bundle settingsGlobal = null;
+public class SettingsActivity extends AppCompatActivity
+{
+    private Setting currentSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
         Log.d("PHOS", "Phosphenes: " + phosFileStr[0] + " " + phosFileStr[1]);
 
         Button btnConfirm = (Button) findViewById(R.id.btn_confirm);
-        Button btnCamera = (Button) findViewById(R.id.btn_camera);
         btnConfirm.setOnClickListener(confirmBtnListener);
-        btnCamera.setOnClickListener(cameraBtnListener);
     }
 
     OnClickListener confirmBtnListener = new OnClickListener()
@@ -43,39 +43,35 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onClick(View v)
         {
-            Spinner algorithmView = (Spinner) findViewById(R.id.spinner);
-            String algorithmText = algorithmView.getSelectedItem().toString();
-
-            settingsGlobal = saveSettings(algorithmText);
+            saveSettings();
         }
     };
 
-    OnClickListener cameraBtnListener = new OnClickListener()
+    public void onBackPressed()
     {
-        @Override
-        public void onClick(View v)
-        {
-            goToCamera(settingsGlobal);
-        }
-    };
+        saveSettings();
 
-    private Bundle saveSettings(String algorithm)
-    {
-        Bundle settingsBundle = new Bundle();
-        settingsBundle.putString("Algorithm", algorithm);
+        Intent intent = new Intent();
+        ArrayList<Setting> dataList = new ArrayList<>();
+        dataList.add(currentSetting);
 
-        return settingsBundle;
+        intent.putParcelableArrayListExtra("SETTING", dataList);
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
     }
 
-    private void goToCamera(Bundle settings)
+    private void saveSettings()
     {
+        Spinner algorithmView = (Spinner) findViewById(R.id.spinner);
+        String algorithmText = algorithmView.getSelectedItem().toString();
 
-        Log.i("TAG", "Settings: " + settings.getString("Algorithm"));
-
-        Intent dataSettings = new Intent();
-        dataSettings.setClass(getApplicationContext(), software_a.com.bionicvision.CameraActivity.class);
-        dataSettings.putExtras(settings);
-
-        startActivity(dataSettings);
+        if (currentSetting == null)
+        {
+            currentSetting = new Setting(algorithmText, 0.0, 0.0, 0, 0);
+        }
+        else
+        {
+            currentSetting.update(algorithmText, 0.0, 0.0, 0, 0);
+        }
     }
 }
