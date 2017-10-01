@@ -1,6 +1,9 @@
 package software_a.com.bionicvision;
 
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import org.opencv.android.JavaCameraView;
 import org.opencv.android.BaseLoaderCallback;
@@ -9,11 +12,16 @@ import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
 import org.opencv.core.*;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc.*;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by aaron on 22/07/2017.
@@ -72,6 +80,50 @@ public class PhospheneRendering {
             positions[i].x += 2*(spacingW + (noOfRows) * spacingW) - 6*(radius + spacingH);
             intensity = new Scalar(colour[i]);
             org.opencv.imgproc.Imgproc.circle(temp, positions[i], radius, intensity, -1);
+        }
+
+        // Convert to Bitmap
+        Bitmap bmp = null;
+        try {
+            bmp = Bitmap.createBitmap(frame.cols(), frame.rows(), Bitmap.Config.ARGB_8888);
+            Utils.matToBitmap(frame, bmp);
+        } catch (CvException e) {
+            Log.d("TAG", e.getMessage());
+        }
+
+        frame.release();
+
+        FileOutputStream out = null;
+
+        String filename = "TestFile.png";
+
+        File sd = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+        boolean success = true;
+        if (!sd.exists()) {
+            success = sd.mkdir();
+        }
+        if (success) {
+            File dest = new File(sd, filename);
+
+            try {
+                out = new FileOutputStream(dest);
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+                // PNG is a lossless format, the compression factor (100) is ignored
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d("TAG", e.getMessage());
+            } finally {
+                try {
+                    if (out != null) {
+                        out.close();
+                        Log.d("TAG", "OK!!");
+                    }
+                } catch (IOException e) {
+                    Log.d("TAG", e.getMessage() + "Error");
+                    e.printStackTrace();
+                }
+            }
         }
 
         return temp;
