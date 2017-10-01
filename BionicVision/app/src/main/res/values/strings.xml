@@ -17,6 +17,7 @@
         <item>Edge Detection</item>
     </string-array>
 
+    <string name="chk_load">Phosphene Map From CSV</string>
     <string name="btn_confirm">Confirm Settings</string>
     <string name="btn_camera">Camera</string>
 
