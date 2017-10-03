@@ -36,6 +36,8 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     Algorithm intensity = new IntensityAlgorithm();
     PhospheneRendering renderDots = new PhospheneRendering();
 
+    private Algorithm algorithm;
+
     // Used for logging success or failure messages
     private static final String TAG = "OCVSample::Activity";
 
@@ -82,6 +84,24 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
+
+        initialiseUI();
+    }
+
+    private void initialiseUI()
+    {
+        Bundle settingsBundle = getIntent().getExtras();
+        String alg = settingsBundle.getString("Algorithm");
+
+        if (alg == null)
+        {
+            algorithm = new BlankAlgorithm();
+        }
+        else
+        {
+            AlgorithmSwitch theSwitch = new AlgorithmSwitch();
+            algorithm = theSwitch.choose(alg);
+        }
     }
 
     @Override
@@ -119,12 +139,6 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         Mat frame = inputFrame.gray();
         Mat intensityMap = intensity.process(frame);
-
-        Bundle settingsBundle = getIntent().getExtras();
-        String alg = settingsBundle.getString("Algorithm");
-
-        AlgorithmSwitch theSwitch = new AlgorithmSwitch();
-        Algorithm algorithm = theSwitch.choose(alg);
 
         Log.i("TAG", "Algorithm Name: " + algorithm.getName());
 
