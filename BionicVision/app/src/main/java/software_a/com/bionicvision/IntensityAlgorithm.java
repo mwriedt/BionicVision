@@ -22,23 +22,23 @@ class IntensityAlgorithm extends Algorithm
         int[][] avgIntent = new int[numRows][numCols];
 
         for (int a = 0; a < numCols * numRows; a++) {
-            for (int i = (frame.height() / numCols) * gridIndexY; i < (frame.height() / numCols) * (gridIndexY + 1); i += 9) {
-                for (int j = (frame.width() / numRows) * gridIndexX; j < (frame.width() / numRows) * (gridIndexX + 1); j += 19) {
-                    temp = frame.get(i, j);
-                    avgIntent[gridIndexY][gridIndexX] += temp[0];
+        for (int i = (frame.height() / numCols) * gridIndexY; i < (frame.height() / numCols) * (gridIndexY + 1); i += 9) {
+            for (int j = (frame.width() / numRows) * gridIndexX; j < (frame.width() / numRows) * (gridIndexX + 1); j += 19) {
+                temp = frame.get(i, j);
+                avgIntent[gridIndexY][gridIndexX] += temp[0];
 
-                }
-            }
-
-            avgIntent[gridIndexY][gridIndexX] /= 9;
-
-            gridIndexX++;
-
-            if (gridIndexX > numRows - 1) {
-                gridIndexX = 0;
-                gridIndexY++;
             }
         }
+
+        avgIntent[gridIndexY][gridIndexX] /= 9;
+
+        gridIndexX++;
+
+        if (gridIndexX > numRows - 1) {
+            gridIndexX = 0;
+            gridIndexY++;
+        }
+    }
 
         intensityMap = InitMatrix(intensityMap, avgIntent);
         return intensityMap;

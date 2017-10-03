@@ -145,6 +145,7 @@ public class SettingsActivity extends AppCompatActivity
         }
     };
 
+
     OnSeekBarChangeListener amountSeekChangeListener = new OnSeekBarChangeListener()
     {
         @Override
