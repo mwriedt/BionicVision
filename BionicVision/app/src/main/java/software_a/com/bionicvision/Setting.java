@@ -27,6 +27,10 @@ class Setting implements Parcelable
     }
 
     String getAlgorithm() {return this.phosAlgorithm;}
+    double getPhosGamma() {return this.phosGamma;}
+    double getPhosSpacing() {return this.phosSpacing;}
+    int getPhosAmount() {return this.phosNumber;}
+    int getPhosSize() {return this.phosSize;}
 
     @Override
     public int describeContents() {return 0;}
