@@ -34,7 +34,7 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     //For debug mode make true
 //    boolean debug = false;
     Algorithm intensity = new IntensityAlgorithm();
-    PhospheneRendering renderDots = new PhospheneRendering();
+    PhospheneRendering renderDots;
 
     private Algorithm algorithm;
 
@@ -76,7 +76,7 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         setContentView(R.layout.activity_camera);
 
         mOpenCvCameraView = (JavaCameraView) findViewById(R.id.camera_activity_java_surface_view);
-        mOpenCvCameraView.setMaxFrameSize(320, 240);
+        mOpenCvCameraView.setMaxFrameSize(512, 288);
 
 //        android.graphics.Rect screen = new android.graphics.Rect();
 //        mOpenCvCameraView.getWindowVisibleDisplayFrame(screen);
@@ -84,14 +84,23 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
+        mOpenCvCameraView.enableView();
 
         initialiseUI();
     }
+
+
 
     private void initialiseUI()
     {
         Bundle settingsBundle = getIntent().getExtras();
         String alg = settingsBundle.getString("Algorithm");
+        double gamma = settingsBundle.getDouble("PhospheneGamma");
+        double spacing = settingsBundle.getDouble("PhospheneSpacing");
+        int amount = settingsBundle.getInt("PhospheneAmount");
+        int size = settingsBundle.getInt("PhospheneSize");
+
+        renderDots = new PhospheneRendering(spacing, size);
 
         if (alg == null)
         {
