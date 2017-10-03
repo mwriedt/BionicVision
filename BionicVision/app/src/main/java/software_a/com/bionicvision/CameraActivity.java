@@ -1,6 +1,5 @@
 package software_a.com.bionicvision;
 
-import android.graphics.Camera;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -78,7 +77,6 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
         mOpenCvCameraView = (JavaCameraView) findViewById(R.id.camera_activity_java_surface_view);
         mOpenCvCameraView.setMaxFrameSize(512, 288);
-        mOpenCvCameraView.getHolder().setFixedSize(512, 288);
 
 //        android.graphics.Rect screen = new android.graphics.Rect();
 //        mOpenCvCameraView.getWindowVisibleDisplayFrame(screen);
