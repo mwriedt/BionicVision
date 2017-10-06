@@ -1,5 +1,6 @@
 package software_a.com.bionicvision;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.DisplayMetrics;
@@ -82,49 +83,8 @@ public class PhospheneRendering {
             org.opencv.imgproc.Imgproc.circle(temp, positions[i], radius, intensity, -1);
         }
 
-        // Convert to Bitmap
-        Bitmap bmp = null;
-        try {
-            bmp = Bitmap.createBitmap(frame.cols(), frame.rows(), Bitmap.Config.ARGB_8888);
-            Utils.matToBitmap(frame, bmp);
-        } catch (CvException e) {
-            Log.d("TAG", e.getMessage());
-        }
-
-        frame.release();
-
-        FileOutputStream out = null;
-
-        String filename = "TestFile.png";
-
-        File sd = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
-        boolean success = true;
-        if (!sd.exists()) {
-            success = sd.mkdir();
-        }
-        if (success) {
-            File dest = new File(sd, filename);
-
-            try {
-                out = new FileOutputStream(dest);
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
-                // PNG is a lossless format, the compression factor (100) is ignored
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("TAG", e.getMessage());
-            } finally {
-                try {
-                    if (out != null) {
-                        out.close();
-                        Log.d("TAG", "OK!!");
-                    }
-                } catch (IOException e) {
-                    Log.d("TAG", e.getMessage() + "Error");
-                    e.printStackTrace();
-                }
-            }
-        }
+        Storage storage = new Storage(temp);
+        storage.saveFile();
 
         return temp;
     }
