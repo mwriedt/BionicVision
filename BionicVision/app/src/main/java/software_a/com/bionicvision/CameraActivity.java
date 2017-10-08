@@ -15,6 +15,7 @@ import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.Rect;
 
 public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2 {
 
@@ -138,18 +139,40 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         Mat frame = inputFrame.gray();
-        Mat intensityMap = intensity.process(frame);
+
+        Mat croppedFrame = CroptoFoV(frame, 30);
+
+        Mat intensityMap = intensity.process(croppedFrame);
 
         Log.i("TAG", "Algorithm Name: " + algorithm.getName());
 
         if (algorithm.getName() == "Intensity")
         {
-            Mat dots = renderDots.RenderGrid(intensityMap, 320, 240, 64, frame);
+            Mat dots = renderDots.RenderGrid(intensityMap, 320, 240, 64, croppedFrame);
             return dots;
         }
 
-        return frame;
+        return croppedFrame;
 
         //DisplayMetrics displayMetrics = new DisplayMetrics();
+    }
+
+    public Mat CroptoFoV(Mat Current, int FoV)
+    {
+        FieldOfView FoVObject = new FieldOfView();
+
+        int width = FoVObject.CalculateCaptureFoV(FoV, Current.width());
+        int height = FoVObject.CalculateCaptureFoV(FoV, Current.height());
+
+        // Setup a rectangle to define your region of interest
+        Rect cropRegion = new Rect((Current.width()-width)/2, (Current.height()-height)/2, width, height);
+
+        Mat croppedImage = Current.zeros(Current.size(),Current.type());
+
+        // Crop the full image to that image contained by the rectangle myROI
+        // Note that this doesn't copy the data
+        //Current.submat(cropRegion).copyTo(croppedImage.submat(cropRegion));
+        org.opencv.imgproc.Imgproc.resize(Current.submat(cropRegion), croppedImage, Current.size());
+        return croppedImage;
     }
 }
