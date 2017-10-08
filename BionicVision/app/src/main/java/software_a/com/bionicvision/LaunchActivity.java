@@ -66,17 +66,9 @@ public class LaunchActivity extends AppCompatActivity {
         {
             ArrayList<Setting> settingsList = intent.getParcelableArrayListExtra("SETTING");
             Setting settingsObj = settingsList.get(0);
-            String outAlg = settingsObj.getAlgorithm();
-            double outGamma = settingsObj.getPhosGamma();
-            double outSpacing = settingsObj.getPhosSpacing();
-            int outAmount = settingsObj.getPhosAmount();
-            int outSize = settingsObj.getPhosSize();
+            String alg = settingsObj.getAlgorithm();
 
-            settings.putString("Algorithm", outAlg);
-            settings.putDouble("PhospheneGamma", outGamma);
-            settings.putDouble("PhospheneSpacing", outSpacing);
-            settings.putInt("PhospheneAmount", outAmount);
-            settings.putInt("PhospheneSize", outSize);
+            settings.putString("Algorithm", alg);
         }
     }
 
@@ -86,10 +78,6 @@ public class LaunchActivity extends AppCompatActivity {
         {
             Bundle blankSettings = new Bundle();
             blankSettings.putString("Algorithm", "Blank");
-            blankSettings.putDouble("PhospheneGamma", 0.0);
-            blankSettings.putDouble("PhospheneSpacing", 1.0);
-            blankSettings.putInt("PhospheneAmount", 64);
-            blankSettings.putInt("PhospheneSize", 16);
 
             Intent cameraIntent = new Intent();
             cameraIntent.setClass(getApplicationContext(), CameraActivity.class);

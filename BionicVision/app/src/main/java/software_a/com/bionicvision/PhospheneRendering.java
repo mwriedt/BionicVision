@@ -16,16 +16,12 @@ import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Imgproc.*;
 
-class PhospheneRendering {
+/**
+ * Created by aaron on 22/07/2017.
+ */
 
-    private float fFov;
-    private int fMaxRad;
+public class PhospheneRendering {
 
-    PhospheneRendering(double spacing, int size)
-    {
-        this.fFov = (float) spacing + 115;
-        this.fMaxRad = size;
-    }
 
     Mat RenderGridO(Mat data, int width, int height, int noOfCircles, Mat frame)
     {
@@ -151,7 +147,7 @@ class PhospheneRendering {
         // Initialise Variables
         double noOfRows = Math.sqrt(noOfCircles);
         double noOfColumns = noOfRows;
-        int radius = 255/fMaxRad;
+        int radius = 255/maxRad;
         Scalar intensity = new Scalar(0);
         double[] colour = new double[width*height];
         int count = 0;
@@ -162,13 +158,13 @@ class PhospheneRendering {
         int cp2Height = cp1Height;
         int cp2Width = width - cp1Width;
 
-        int spacing = (int)((fFov -(2*(noOfColumns*fMaxRad)))/(noOfColumns-1));
+        int spacing = (int)((fov -(2*(noOfColumns*maxRad)))/(noOfColumns-1));
 
-        int tc1x = (int)(cp1Width - ((noOfRows/2)*fMaxRad) - (((noOfRows-1)/2) * spacing));
-        int tc1y = (int)(cp1Height - ((noOfColumns/2)*fMaxRad) - (((noOfColumns-1)/2) * spacing));
+        int tc1x = (int)(cp1Width - ((noOfRows/2)*maxRad) - (((noOfRows-1)/2) * spacing));
+        int tc1y = (int)(cp1Height - ((noOfColumns/2)*maxRad) - (((noOfColumns-1)/2) * spacing));
 
-        int tc2x = (int)(cp2Width - ((noOfRows/2)*fMaxRad)- (((noOfRows-1)/2) * xSpace));
-        int tc2y = (int)(cp2Height - ((noOfColumns/2)*fMaxRad)- (((noOfColumns-1)/2) * ySpace));
+        int tc2x = (int)(cp2Width - ((noOfRows/2)*maxRad)- (((noOfRows-1)/2) * xSpace));
+        int tc2y = (int)(cp2Height - ((noOfColumns/2)*maxRad)- (((noOfColumns-1)/2) * ySpace));
 
         // Imgproc.cvtColor(temp,temp, Imgproc.COLOR_GRAY2RGBA, 4);
 
@@ -191,16 +187,16 @@ class PhospheneRendering {
                 count++;
             }
         }*/
-        int xStart = tc1x + fMaxRad;
-        int yStart = tc1y + fMaxRad;
+        int xStart = tc1x + maxRad;
+        int yStart = tc1y + maxRad;
         int xPos;
         int yPos;
         for (int i =0; i < noOfColumns; i++)
         {
-            yPos = yStart+(i*(fMaxRad+spacing));
+            yPos = yStart+(i*(maxRad+spacing));
             for (int j = 0; j < noOfRows; j++)
             {
-                xPos = xStart+(j*(fMaxRad+spacing));
+                xPos = xStart+(j*(maxRad+spacing));
                 org.opencv.core.Point pos = new org.opencv.core.Point(xPos, yPos);
                 positions[i*8 + j] = pos;
                 colour[count] = data.get(i,j)[0];
