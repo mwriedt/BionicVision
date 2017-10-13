@@ -17,6 +17,8 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 
+import java.util.List;
+
 public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2 {
 
     //Display displayScale = getWindowManager().getDefaultDisplay();
@@ -36,7 +38,10 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 //    boolean debug = false;
     Algorithm intensity = new IntensityAlgorithm();
     PhospheneRendering renderDots = new PhospheneRendering();
-
+    //TODO: Replace with grid from settings bundle
+    int numOfPhos = 61;
+    PhospheneMap phospeheneMap = new PhospheneMap(numOfPhos);
+    List<Phosphene> alivePhosphenes = phospeheneMap.getPhosphenes();
     private Algorithm algorithm;
 
     // Used for logging success or failure messages
@@ -140,15 +145,15 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         Mat frame = inputFrame.gray();
 
-        Mat croppedFrame = CroptoFoV(frame, 30);
+        Mat croppedFrame = CroptoFoV(frame, 75);
 
-        Mat intensityMap = intensity.process(croppedFrame);
+        List<Phosphene> intensityMap = intensity.process(croppedFrame, alivePhosphenes);
 
-        Log.i("TAG", "Algorithm Name: " + algorithm.getName());
+        //Log.i("TAG", "Algorithm Name: " + algorithm.getName());
 
         if (algorithm.getName() == "Intensity")
         {
-            Mat dots = renderDots.RenderGrid(intensityMap, 320, 240, 64, croppedFrame);
+            Mat dots = renderDots.RenderGrid(intensityMap, 320, 240, numOfPhos, croppedFrame);
             return dots;
         }
 
