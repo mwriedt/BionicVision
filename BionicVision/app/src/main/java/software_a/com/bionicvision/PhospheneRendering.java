@@ -23,6 +23,7 @@ import org.opencv.imgproc.Imgproc.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * Created by aaron on 22/07/2017.
@@ -83,9 +84,7 @@ public class PhospheneRendering {
             org.opencv.imgproc.Imgproc.circle(temp, positions[i], radius, intensity, -1);
         }
 
-        Storage storage = new Storage(temp);
-        storage.saveFile();
-
         return temp;
     }
+
 }

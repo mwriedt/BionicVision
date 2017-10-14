@@ -23,14 +23,15 @@ import org.opencv.core.Mat;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Random;
 
 public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2 {
 
     //Display displayScale = getWindowManager().getDefaultDisplay();
-   // Display displayScale = (Display)getWindowManager().getDefaultDisplay();
+    // Display displayScale = (Display)getWindowManager().getDefaultDisplay();
 
     //============= THIS SESSION
-  //  WindowManager window = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
+    //  WindowManager window = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
 
 //   Display display = displayScale;
 //    Point windowSize = new Point();
@@ -138,9 +139,9 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
         Log.i("TAG", "Algorithm Name: " + algorithm.getName());
 
-        if (algorithm.getName() == "Intensity")
-        {
+        if (algorithm.getName() == "Intensity") {
             Mat dots = renderDots.Render(intensityMap, 2560, 1440, 64, frame);
+            saveFile(dots);
             return dots;
         }
 
@@ -148,4 +149,53 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
         //DisplayMetrics displayMetrics = new DisplayMetrics();
     }
+
+    void saveFile(Mat frame) {
+        Bitmap bmp = null;
+        try {
+            bmp = Bitmap.createBitmap(frame.cols(), frame.rows(), Bitmap.Config.ARGB_8888);
+            Utils.matToBitmap(frame, bmp);
+        } catch (CvException e) {
+            Log.d("TAG", e.getMessage());
+        }
+
+        frame.release();
+
+        FileOutputStream out = null;
+
+        File sd = new File(Environment.getExternalStorageDirectory() + "/images");
+        boolean success = true;
+        if (!sd.exists()) {
+            success = sd.mkdir();
+        }
+        if (success) {
+
+            Random gen = new Random();
+            int n = 1000000;
+            n = gen.nextInt(n);
+            String outputName = "Image-" + n + ".jpg";
+            File dest = new File(sd, outputName);
+            try {
+                out = new FileOutputStream(dest);
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+                // PNG is a lossless format, the compression factor (100) is ignored
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d("TAG", e.getMessage());
+            } finally {
+                try {
+                    if (out != null) {
+                        out.close();
+                        Log.d("TAG", "OK!!");
+                        Log.d("External", Environment.getExternalStorageDirectory().getAbsolutePath());
+                    }
+                } catch (IOException e) {
+                    Log.d("TAG", e.getMessage() + "Error");
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
+
