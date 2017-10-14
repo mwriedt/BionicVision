@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: /Users/aaron/Documents/Git/BionicVision/BionicVision/opencv/src/org/opencv/engine/OpenCVEngineInterface.aidl
+ * Original file: /Users/koalaah/BionicVision/BionicVision/BionicVision/opencv/src/org/opencv/engine/OpenCVEngineInterface.aidl
  */
 package org.opencv.engine;
 /**

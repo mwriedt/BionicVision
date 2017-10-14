@@ -1,6 +1,8 @@
 package software_a.com.bionicvision;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -13,17 +15,24 @@ import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
+import org.opencv.core.CvException;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Random;
+
 public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2 {
 
     //Display displayScale = getWindowManager().getDefaultDisplay();
-   // Display displayScale = (Display)getWindowManager().getDefaultDisplay();
+    // Display displayScale = (Display)getWindowManager().getDefaultDisplay();
 
     //============= THIS SESSION
-  //  WindowManager window = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
+    //  WindowManager window = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
 
 //   Display display = displayScale;
 //    Point windowSize = new Point();
@@ -176,3 +185,4 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         return croppedImage;
     }
 }
+
