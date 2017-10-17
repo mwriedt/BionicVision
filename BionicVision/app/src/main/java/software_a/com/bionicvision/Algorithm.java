@@ -22,7 +22,7 @@ public abstract class Algorithm
         name = n;
     }
 
-    abstract List<Phosphene> process(Mat frame, List<Phosphene> phospheneGrid);
+    abstract List<Phosphene> process(Mat frame, List<Phosphene> phospheneGrid, int maxGrid);
 
     Mat InitMatrix(Mat matrix, int[][] array)
     {

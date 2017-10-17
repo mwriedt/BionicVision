@@ -13,19 +13,19 @@ class IntensityAlgorithm extends Algorithm
     }
 
     @Override
-    List<Phosphene> process(Mat frame, List<Phosphene> phospheneGrid)
+    List<Phosphene> process(Mat frame, List<Phosphene> phospheneGrid, int maxGrid)
     {
 
-        int numRows = 8;
-        int numCols = 8;
+       // int numRows = 8;
+       // int numCols = 8;
         int gridIndexX = 0;
         int gridIndexY = 0;
-        Mat intensityMap = new Mat(numRows, numCols, CvType.CV_8U);
+       // Mat intensityMap = new Mat(numRows, numCols, CvType.CV_8U);
         double[] temp;
         //int[][] avgIntent = new int[numRows][numCols];
         int avg = 0;
         int count = 0;
-        int maxListSize = 17;
+        int maxListSize = maxGrid; //!!!!MUST BE AN ODD NUMBER!!!!
         for (Phosphene p: phospheneGrid)
         {
             avg = 0;

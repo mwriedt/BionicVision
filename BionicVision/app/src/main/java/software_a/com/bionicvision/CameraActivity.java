@@ -40,6 +40,7 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     PhospheneRendering renderDots = new PhospheneRendering();
     //TODO: Replace with grid from settings bundle
     int numOfPhos = 61;
+    int maxListSize = 17;
     PhospheneMap phospeheneMap = new PhospheneMap(numOfPhos);
     List<Phosphene> alivePhosphenes = phospeheneMap.getPhosphenes();
     private Algorithm algorithm;
@@ -147,7 +148,7 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
         Mat croppedFrame = CroptoFoV(frame, 75);
 
-        List<Phosphene> intensityMap = intensity.process(croppedFrame, alivePhosphenes);
+        List<Phosphene> intensityMap = intensity.process(croppedFrame, alivePhosphenes, maxListSize);
 
         //Log.i("TAG", "Algorithm Name: " + algorithm.getName());
 

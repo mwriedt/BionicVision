@@ -12,7 +12,7 @@ class EdgeDetectionAlgorithm extends Algorithm
     }
 
     @Override
-    List<Phosphene> process(Mat frame, List<Phosphene> phospheneGrid)
+    List<Phosphene> process(Mat frame, List<Phosphene> phospheneGrid, int maxGrid)
     {
         return null;
     }

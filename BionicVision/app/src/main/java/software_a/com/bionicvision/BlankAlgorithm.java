@@ -12,7 +12,7 @@ class BlankAlgorithm extends Algorithm
     }
 
 
-    List<Phosphene> process(Mat frame, List<Phosphene> phospheneGrid)
+    List<Phosphene> process(Mat frame, List<Phosphene> phospheneGrid, int maxGrid)
     {
         return null;
     }
