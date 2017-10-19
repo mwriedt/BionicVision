@@ -1,6 +1,10 @@
 package software_a.com.bionicvision;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,13 +17,17 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static android.media.MediaRecorder.VideoSource.CAMERA;
 
 public class SettingsActivity extends AppCompatActivity
 {
     private Setting currentSetting;
-
+    static final Integer WRITE_EXST = 0x3;
+    static final Integer PCAMERA = 0x5;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +36,37 @@ public class SettingsActivity extends AppCompatActivity
         setContentView(R.layout.activity_settings);
         initialiseUI();
     }
+
+    private void askForPermission(String permission, Integer requestCode) {
+        if (ContextCompat.checkSelfPermission(SettingsActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(SettingsActivity.this, permission)) {
+
+                //This is called if user has denied the permission before
+                //In this case I am just asking the permission again
+                ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{permission}, requestCode);
+
+            } else {
+
+                ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{permission}, requestCode);
+            }
+        } else {
+            Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void ask(View v){
+    switch (v.getId()){
+        case R.id.btnS:
+            askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,WRITE_EXST);
+            break;
+        case R.id.btnC:
+            askForPermission(Manifest.permission.CAMERA,PCAMERA);
+            break;
+        default:
+            break;
+    }
+}
 
     private void initialiseUI()
     {
