@@ -150,8 +150,6 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
         List<Phosphene> intensityMap = intensity.process(croppedFrame, alivePhosphenes, maxListSize);
 
-        //Log.i("TAG", "Algorithm Name: " + algorithm.getName());
-
         if (algorithm.getName() == "Intensity")
         {
             Mat dots = renderDots.RenderGrid(intensityMap, 320, 240, numOfPhos, croppedFrame);

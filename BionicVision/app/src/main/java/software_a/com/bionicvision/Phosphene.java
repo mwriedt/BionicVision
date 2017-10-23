@@ -5,13 +5,13 @@ package software_a.com.bionicvision;
  */
 
 public class Phosphene {
-    public int layer = 0;
-    public Boolean touchingCP = Boolean.FALSE;
-    public Boolean isCP = Boolean.FALSE;
+    private int layer = 0;
+    private Boolean touchingCP = Boolean.FALSE;
+    private Boolean isCP = Boolean.FALSE;
     //Maybe store location(Camera/Image location) in here?
-    public int xLoc;
-    public int yLoc;
-    public Boolean alive = Boolean.FALSE;
+    private int xLoc;
+    private int yLoc;
+    private Boolean alive = Boolean.FALSE;
     private int Intensity;
 
     Phosphene(int yLocation, int xLocation, int fLayer)
@@ -27,5 +27,51 @@ public class Phosphene {
 
     public void setIntensity(int intensity) {
         Intensity = intensity;
+    }
+
+    public boolean getAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean lAlive) {
+        alive = lAlive;
+    }
+
+    public int getxLoc() {
+        return xLoc;
+    }
+
+    public void setxLoc(int lxLoc) {
+        xLoc = lxLoc;
+    }
+
+    public int getyLoc() {
+        return yLoc;
+    }
+
+    public void setyLoc(int lyLoc) {
+        yLoc = lyLoc;
+    }
+
+    public int getLayer() {
+        return layer;
+    }
+
+    public void setLayer(int lLayer) {
+        layer = lLayer;
+    }
+
+    public boolean getIsCP() {
+        return isCP;
+    }
+
+    public void setIsCP(boolean lisCP) {
+        isCP = lisCP;
+    }
+
+    public boolean getTouchingCP() {return touchingCP;}
+
+    public void setTouchingCP(boolean lTouchingCP) {
+        touchingCP = lTouchingCP;
     }
 }

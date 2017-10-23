@@ -33,10 +33,10 @@ public class PhospheneMap {
 
     private void CreateCP()
     {
-        phospheneBuilder.get(8).get(8).isCP = Boolean.TRUE;
-        phospheneBuilder.get(8).get(8).touchingCP = Boolean.TRUE;
-        phospheneBuilder.get(8).get(8).alive = Boolean.TRUE;
-        phospheneBuilder.get(8).get(8).layer = 0;
+        phospheneBuilder.get(8).get(8).setIsCP(Boolean.TRUE);
+        phospheneBuilder.get(8).get(8).setTouchingCP(Boolean.TRUE);
+        phospheneBuilder.get(8).get(8).setAlive(Boolean.TRUE);
+        phospheneBuilder.get(8).get(8).setLayer(0);
     }
 
     public List<Phosphene> getPhosphenes()
@@ -46,7 +46,7 @@ public class PhospheneMap {
         {
             for (Phosphene p: j)
             {
-                if (p.alive)
+                if (p.getAlive())
                 {
                     result.add(p);
                 }
@@ -104,15 +104,15 @@ public class PhospheneMap {
                 {
                     for (Phosphene p: m ) //For every phosphene is that list
                     {
-                        if (p.isCP || p.alive) //If the phosphene is already alive in this position, skip
+                        if (p.getIsCP() || p.getAlive()) //If the phosphene is already alive in this position, skip
                             continue;
 
-                        if (CheckBorders(p.xLoc, p.yLoc)) //If the location of the phosphene is acceptable
+                        if (CheckBorders(p.getxLoc(), p.getyLoc())) //If the location of the phosphene is acceptable
                         {
-                            if (p.layer == l) //If the current phosphene is on the chosen layer
+                            if (p.getLayer() == l) //If the current phosphene is on the chosen layer
                             {
-                                p.alive = Boolean.TRUE; //This phos is now alive
-                                p.touchingCP = Boolean.TRUE; //This phos is now touching the centre point
+                                p.setAlive(Boolean.TRUE); //This phos is now alive
+                                p.setTouchingCP(Boolean.TRUE); //This phos is now touching the centre point
                                 continue startloop; //Jump back up to the next phosphene (maybe a goto statement?)
                             }
                         }
@@ -131,19 +131,19 @@ public class PhospheneMap {
             {
                 if (y == 0) //If y is 0 and x is 16
                 {
-                    if (phospheneBuilder.get(x - 1).get(y + 1).touchingCP) {
+                    if (phospheneBuilder.get(x - 1).get(y + 1).getTouchingCP()) {
                         result = Boolean.TRUE;
                     }
                 }
                 else if (y >= 16) //If y is 16 and x is 16
                 {
-                    if (phospheneBuilder.get(x - 1).get(y - 1).touchingCP) {
+                    if (phospheneBuilder.get(x - 1).get(y - 1).getTouchingCP()) {
                         result = Boolean.TRUE;
                     }
                 }
                 else //From 1,16 to 15,16
                 {
-                    if (phospheneBuilder.get(x - 1).get(y + 1).touchingCP || phospheneBuilder.get(x - 1).get(y - 1).touchingCP)
+                    if (phospheneBuilder.get(x - 1).get(y + 1).getTouchingCP() || phospheneBuilder.get(x - 1).get(y - 1).getTouchingCP())
                     {
                         result = Boolean.TRUE;
                     }
@@ -153,22 +153,22 @@ public class PhospheneMap {
             {
                 if (y == 0) // if y is 0  and x is not 16 or 0
                 {
-                    if (phospheneBuilder.get(x - 1).get(y + 1).touchingCP || phospheneBuilder.get(x + 1).get(y + 1).touchingCP)
+                    if (phospheneBuilder.get(x - 1).get(y + 1).getTouchingCP() || phospheneBuilder.get(x + 1).get(y + 1).getTouchingCP())
                     {
                         result = Boolean.TRUE;
                     }
                 }
                 else if (y >= 16) //if y is 16 and x is not 16 or 0
                 {
-                    if (phospheneBuilder.get(x - 1).get(y - 1).touchingCP || phospheneBuilder.get(x + 1).get(y - 1).touchingCP)
+                    if (phospheneBuilder.get(x - 1).get(y - 1).getTouchingCP() || phospheneBuilder.get(x + 1).get(y - 1).getTouchingCP())
                     {
                         result = Boolean.TRUE;
                     }
                 }
                 else //if x is not 0 or 16 and y is not 0 or 16
                 {
-                    if (phospheneBuilder.get(x - 1).get(y - 1).touchingCP || phospheneBuilder.get(x - 1).get(y + 1).touchingCP
-                            ||phospheneBuilder.get(x + 1).get(y - 1).touchingCP || phospheneBuilder.get(x + 1).get(y + 1).touchingCP )
+                    if (phospheneBuilder.get(x - 1).get(y - 1).getTouchingCP() || phospheneBuilder.get(x - 1).get(y + 1).getTouchingCP()
+                            ||phospheneBuilder.get(x + 1).get(y - 1).getTouchingCP() || phospheneBuilder.get(x + 1).get(y + 1).getTouchingCP() )
                     {
                         result = Boolean.TRUE;
                     }
@@ -180,19 +180,19 @@ public class PhospheneMap {
         {
             if (y == 0) //If y is 0 and x is 0
             {
-                if (phospheneBuilder.get(x + 1).get(y + 1).touchingCP) {
+                if (phospheneBuilder.get(x + 1).get(y + 1).getTouchingCP()) {
                     result = Boolean.TRUE;
                 }
             }
             else if (y >= 16) //If y is 16 and x is 0
             {
-                if (phospheneBuilder.get(x + 1).get(y - 1).touchingCP) {
+                if (phospheneBuilder.get(x + 1).get(y - 1).getTouchingCP()) {
                     result = Boolean.TRUE;
                 }
             }
             else //From 1,0 to 15,0
             {
-                if (phospheneBuilder.get(x + 1).get(y - 1).touchingCP || phospheneBuilder.get(x + 1).get(y + 1).touchingCP)
+                if (phospheneBuilder.get(x + 1).get(y - 1).getTouchingCP() || phospheneBuilder.get(x + 1).get(y + 1).getTouchingCP())
                 {
                     result = Boolean.TRUE;
                 }

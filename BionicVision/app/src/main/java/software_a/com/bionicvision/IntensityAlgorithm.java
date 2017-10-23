@@ -30,8 +30,8 @@ class IntensityAlgorithm extends Algorithm
         {
             avg = 0;
             count = 0;
-            gridIndexX = p.xLoc;
-            gridIndexY = p.yLoc;
+            gridIndexX = p.getxLoc();
+            gridIndexY = p.getyLoc();
             for(int i = gridIndexX;i<gridIndexX + frame.width()/maxListSize;i += (frame.width()/maxListSize)/3) //Increment by a third each
             {
                 for (int j = gridIndexY; j <gridIndexY + frame.height()/maxListSize;j += (frame.height()/maxListSize)/3)//Same
