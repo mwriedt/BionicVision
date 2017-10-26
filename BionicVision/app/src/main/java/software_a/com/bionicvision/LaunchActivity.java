@@ -65,6 +65,7 @@ public class LaunchActivity extends AppCompatActivity {
         {
             ArrayList<Setting> settingsList = intent.getParcelableArrayListExtra("SETTING");
             Setting settingsObj = settingsList.get(0);
+
             String outAlg = settingsObj.getAlgorithm();
             double outGamma = settingsObj.getPhosGamma();
             double outSpacing = settingsObj.getPhosSpacing();
