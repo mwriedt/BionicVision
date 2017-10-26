@@ -13,26 +13,10 @@ import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
-public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2 {
-
-    //Display displayScale = getWindowManager().getDefaultDisplay();
-   // Display displayScale = (Display)getWindowManager().getDefaultDisplay();
-
-    //============= THIS SESSION
-  //  WindowManager window = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
-
-//   Display display = displayScale;
-//    Point windowSize = new Point();
-//    int width = display.getWidth();
-//    int height = display.getHeight();
-
-    //
-
-    //For debug mode make true
-//    boolean debug = false;
+public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2
+{
     Algorithm intensity = new IntensityAlgorithm();
     PhospheneRendering renderDots;
 
@@ -76,20 +60,13 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         setContentView(R.layout.activity_camera);
 
         mOpenCvCameraView = (JavaCameraView) findViewById(R.id.camera_activity_java_surface_view);
-        mOpenCvCameraView.setMaxFrameSize(512, 288);
-
-//        android.graphics.Rect screen = new android.graphics.Rect();
-//        mOpenCvCameraView.getWindowVisibleDisplayFrame(screen);
-//        mOpenCvCameraView.setMaxFrameSize(screen.width(), screen.height());
-
+        mOpenCvCameraView.setMaxFrameSize(320, 240);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
         mOpenCvCameraView.enableView();
 
         initialiseUI();
     }
-
-
 
     private void initialiseUI()
     {
@@ -99,6 +76,8 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         double spacing = settingsBundle.getDouble("PhospheneSpacing");
         int amount = settingsBundle.getInt("PhospheneAmount");
         int size = settingsBundle.getInt("PhospheneSize");
+        byte loadB = settingsBundle.getByte("PhospheneLoad");
+        boolean load = loadB != 0;
 
         renderDots = new PhospheneRendering(spacing, size);
 
@@ -139,7 +118,6 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     }
 
     public void onCameraViewStarted(int width, int height) {
-
     }
 
     public void onCameraViewStopped() {
@@ -149,16 +127,11 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         Mat frame = inputFrame.gray();
         Mat intensityMap = intensity.process(frame);
 
-        Log.i("TAG", "Algorithm Name: " + algorithm.getName());
-
-        if (algorithm.getName() == "Intensity")
+        if (algorithm.getName().equals("Intensity"))
         {
-            Mat dots = renderDots.RenderGrid(intensityMap, 320, 240, 64, frame);
-            return dots;
+            return renderDots.RenderGrid(intensityMap, 320, 240, 64, frame);
         }
 
         return frame;
-
-        //DisplayMetrics displayMetrics = new DisplayMetrics();
     }
 }

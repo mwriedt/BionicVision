@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 
 public class LaunchActivity extends AppCompatActivity {
-    private static final int RESULT_SETTINGS = 1;
     private Bundle settings = new Bundle();
 
     @Override
@@ -71,12 +70,14 @@ public class LaunchActivity extends AppCompatActivity {
             double outSpacing = settingsObj.getPhosSpacing();
             int outAmount = settingsObj.getPhosAmount();
             int outSize = settingsObj.getPhosSize();
+            boolean outLoad = settingsObj.getPhosLoad();
 
             settings.putString("Algorithm", outAlg);
             settings.putDouble("PhospheneGamma", outGamma);
             settings.putDouble("PhospheneSpacing", outSpacing);
             settings.putInt("PhospheneAmount", outAmount);
             settings.putInt("PhospheneSize", outSize);
+            settings.putByte("PhospheneLoad", (byte) (outLoad ? 1 : 0));
         }
     }
 
@@ -90,6 +91,7 @@ public class LaunchActivity extends AppCompatActivity {
             blankSettings.putDouble("PhospheneSpacing", 1.0);
             blankSettings.putInt("PhospheneAmount", 64);
             blankSettings.putInt("PhospheneSize", 16);
+            blankSettings.putByte("PhospheneLoad", (byte) 0);
 
             Intent cameraIntent = new Intent();
             cameraIntent.setClass(getApplicationContext(), CameraActivity.class);

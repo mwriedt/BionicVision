@@ -40,138 +40,134 @@
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:weightSum="2">
+                android:gravity="center_horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/txt_gamma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/gamma"/>
 
                 <SeekBar
                     android:id="@+id/seek_gamma"
                     style="@style/Widget.AppCompat.SeekBar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.6"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
                     android:max="10"
-                    android:progress="0"
-                    app:layout_constraintTop_toBottomOf="@+id/spin_algorithm"
-                    app:layout_constraintRight_toLeftOf="@+id/edittxt_gamma"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
+                    android:progress="0"/>
 
                 <EditText
                     android:id="@+id/edittxt_gamma"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.5"
                     android:ems="10"
-                    android:inputType="numberDecimal|numberSigned"
-                    app:layout_constraintTop_toBottomOf="@+id/spin_algorithm"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/seek_gamma"
-                    android:layout_marginTop="16dp"/>
+                    android:inputType="numberDecimal|numberSigned"/>
             </TableRow>
 
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:weightSum="2">
+                android:gravity="center_horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/txt_spacing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/spacing"/>
 
                 <SeekBar
                     android:id="@+id/seek_spacing"
                     style="@style/Widget.AppCompat.SeekBar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.6"
-                    android:max="2556"
-                    android:progress="0"
-                    app:layout_constraintTop_toBottomOf="@+id/seek_gamma"
-                    app:layout_constraintRight_toLeftOf="@+id/edittxt_spacing"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:max="128"
+                    android:progress="0"/>
 
                 <EditText
                     android:id="@+id/edittxt_spacing"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.5"
                     android:ems="10"
-                    android:inputType="numberDecimal"
-                    app:layout_constraintTop_toBottomOf="@+id/edittxt_gamma"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/seek_spacing"
-                    android:layout_marginTop="16dp"/>
+                    android:inputType="numberDecimal"/>
             </TableRow>
 
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:weightSum="2">
+                android:gravity="center_horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/txt_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/amount"/>
 
                 <SeekBar
                     android:id="@+id/seek_amount"
                     style="@style/Widget.AppCompat.SeekBar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.6"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
                     android:max="100"
-                    android:progress="0"
-                    app:layout_constraintTop_toBottomOf="@+id/seek_spacing"
-                    app:layout_constraintRight_toLeftOf="@+id/edittxt_amount"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
+                    android:progress="0"/>
 
                 <EditText
                     android:id="@+id/edittxt_amount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.5"
                     android:ems="10"
-                    android:inputType="number"
-                    app:layout_constraintTop_toBottomOf="@+id/edittxt_spacing"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/seek_amount"
-                    android:layout_marginTop="16dp"/>
+                    android:inputType="number"/>
             </TableRow>
 
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:weightSum="2">
+                android:gravity="center_horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/txt_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/size"/>
 
                 <SeekBar
                     android:id="@+id/seek_size"
                     style="@style/Widget.AppCompat.SeekBar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.6"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
                     android:max="32"
-                    android:progress="0"
-                    app:layout_constraintTop_toBottomOf="@+id/seek_amount"
-                    app:layout_constraintRight_toLeftOf="@+id/edittxt_size"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
+                    android:progress="0"/>
 
                 <EditText
                     android:id="@+id/edittxt_size"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.5"
                     android:ems="10"
-                    android:inputType="number"
-                    app:layout_constraintTop_toBottomOf="@+id/edittxt_amount"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/seek_size"
-                    android:layout_marginTop="16dp"/>
+                    android:inputType="number"/>
             </TableRow>
         </TableLayout>
 
         <CheckBox
-            android:id="@+id/chk_Load"
+            android:id="@+id/chk_load"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/chk_load"
@@ -187,7 +183,7 @@
             android:layout_marginTop="24dp"
             android:text="@string/btn_confirm"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chk_Load"
+            app:layout_constraintTop_toBottomOf="@+id/chk_load"
             android:layout_marginRight="8dp"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginEnd="8dp"

@@ -11,19 +11,21 @@ class Setting implements Parcelable
     private double phosSpacing;
     private int phosNumber;
     private int phosSize;
+    private boolean phosLoad;
 
-    Setting(String alg, double gamma, double spacing, int number, int size)
+    Setting(String alg, double gamma, double spacing, int number, int size, boolean load)
     {
-        update(alg, gamma, spacing, number, size);
+        update(alg, gamma, spacing, number, size, load);
     }
 
-    void update(String algorithm, double gamma, double spacing, int number, int size)
+    void update(String algorithm, double gamma, double spacing, int number, int size, boolean load)
     {
         this.phosAlgorithm = algorithm;
         this.phosGamma = gamma;
         this.phosSpacing = spacing;
         this.phosNumber = number;
         this.phosSize = size;
+        this.phosLoad = load;
     }
 
     String getAlgorithm() {return this.phosAlgorithm;}
@@ -31,6 +33,7 @@ class Setting implements Parcelable
     double getPhosSpacing() {return this.phosSpacing;}
     int getPhosAmount() {return this.phosNumber;}
     int getPhosSize() {return this.phosSize;}
+    boolean getPhosLoad() {return this.phosLoad;}
 
     @Override
     public int describeContents() {return 0;}
@@ -42,6 +45,7 @@ class Setting implements Parcelable
         out.writeDouble(phosSpacing);
         out.writeInt(phosNumber);
         out.writeInt(phosSize);
+        out.writeByte((byte) (phosLoad ? 1 : 0));
     }
 
     public String toString() {return phosAlgorithm;}
@@ -59,5 +63,6 @@ class Setting implements Parcelable
         phosSpacing = in.readDouble();
         phosNumber = in.readInt();
         phosSize = in.readInt();
+        phosLoad = in.readByte() != 0;
     }
 }

@@ -27,6 +27,11 @@
                              be processed into a set of phosphense on the screen.
     </string>
 
+    <string name="gamma">Gamma</string>
+    <string name="spacing">Spacing</string>
+    <string name="size">Size</string>
+    <string name="amount">Amount</string>
+
     <string name="creators">Creators
                             \n Aaron Caratelli, Heejoo Kim, Jinsu Park, Justin Adams, and Mitchell Wreidt
                             \n\n \u00a9 Copyright 2017 Bionic Vision

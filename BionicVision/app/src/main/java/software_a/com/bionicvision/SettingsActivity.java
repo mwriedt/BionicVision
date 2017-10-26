@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -32,10 +34,10 @@ public class SettingsActivity extends AppCompatActivity
     private void initialiseUI()
     {
         Parser parse = new Parser(getApplicationContext());
-        StringBuilder phosFileOutput = parse.readFile();
-        String[] phosFileStr = phosFileOutput.toString().split(",");
+        ArrayList<ArrayList<Integer>> phosFileOutput = parse.readFile();
 
-        Log.d("PHOS", "Phosphenes: " + phosFileStr[0] + " " + phosFileStr[1]);
+        Log.d("PHOS", "Phosphene X: " + phosFileOutput.get(0).get(0));
+        Log.d("PHOS", "Phosphene Y: " + phosFileOutput.get(0).get(1));
 
         Button btnConfirm = (Button) findViewById(R.id.btn_confirm);
         btnConfirm.setOnClickListener(confirmBtnListener);
@@ -103,6 +105,12 @@ public class SettingsActivity extends AppCompatActivity
             if (!hasFocus)
             {
                 SeekBar gammaSeekView = (SeekBar) findViewById(R.id.seek_gamma);
+
+                if (((EditText) v).getText().toString().equals(""))
+                {
+                    gammaSeekView.setProgress(0);
+                }
+
                 String progValue = ((EditText) v).getText().toString();
                 gammaSeekView.setProgress(Integer.parseInt(progValue));
             }
@@ -139,6 +147,12 @@ public class SettingsActivity extends AppCompatActivity
             if (!hasFocus)
             {
                 SeekBar spacingSeekView = (SeekBar) findViewById(R.id.seek_spacing);
+
+                if (((EditText) v).getText().toString().equals(""))
+                {
+                    spacingSeekView.setProgress(0);
+                }
+
                 String progValue = ((EditText) v).getText().toString();
                 spacingSeekView.setProgress(Integer.parseInt(progValue));
             }
@@ -176,6 +190,12 @@ public class SettingsActivity extends AppCompatActivity
             if (!hasFocus)
             {
                 SeekBar amountSeekView = (SeekBar) findViewById(R.id.seek_amount);
+
+                if (((EditText) v).getText().toString().equals(""))
+                {
+                    amountSeekView.setProgress(0);
+                }
+
                 String progValue = ((EditText) v).getText().toString();
                 amountSeekView.setProgress(Integer.parseInt(progValue));
             }
@@ -212,6 +232,12 @@ public class SettingsActivity extends AppCompatActivity
             if (!hasFocus)
             {
                 SeekBar sizeSeekView = (SeekBar) findViewById(R.id.seek_size);
+
+                if (((EditText) v).getText().toString().equals(""))
+                {
+                    sizeSeekView.setProgress(0);
+                }
+
                 String progValue = ((EditText) v).getText().toString();
                 sizeSeekView.setProgress(Integer.parseInt(progValue));
             }
@@ -245,13 +271,16 @@ public class SettingsActivity extends AppCompatActivity
         EditText sizeEditView = (EditText) findViewById(R.id.edittxt_size);
         int size = Integer.parseInt(sizeEditView.getText().toString());
 
+        CheckBox loadView = (CheckBox) findViewById(R.id.chk_load);
+        boolean load = loadView.isChecked();
+
         if (currentSetting == null)
         {
-            currentSetting = new Setting(algorithm, gamma, spacing, amount, size);
+            currentSetting = new Setting(algorithm, gamma, spacing, amount, size, load);
         }
         else
         {
-            currentSetting.update(algorithm, gamma, spacing, amount, size);
+            currentSetting.update(algorithm, gamma, spacing, amount, size, load);
         }
     }
 }
