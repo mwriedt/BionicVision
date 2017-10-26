@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="C:\Users\Justin\Desktop\2017-S1\SWE40001\Source\BionicVision\BionicVision\opencv\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="C:\Users\Justin\Desktop\2017-S1\SWE40001\Source\BionicVision\BionicVision\opencv\src\release\jniLibs"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="C:\Users\Justin\Desktop\2017-S1\SWE40001\src\BionicVision\BionicVision\opencv\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="C:\Users\Justin\Desktop\2017-S1\SWE40001\src\BionicVision\BionicVision\opencv\src\release\jniLibs"/></dataSet></merger>

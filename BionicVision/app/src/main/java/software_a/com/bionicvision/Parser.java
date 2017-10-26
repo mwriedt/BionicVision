@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class Parser
 {
@@ -17,9 +18,9 @@ public class Parser
         this.fContext = context;
     }
 
-    StringBuilder readFile()
+    ArrayList<ArrayList<Integer>> readFile()
     {
-        StringBuilder result = new StringBuilder();
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
 
         try
         {
@@ -31,6 +32,10 @@ public class Parser
 
             while ((line = buffReader.readLine()) != null)
             {
+                String[] splitLine = line.split(",");
+                Integer[] coorVals = new Integer[1];
+                coorVals[0] = Integer.parseInt(splitLine[0])
+
                 result.append(line);
                 result.append("\n");
             }
@@ -45,4 +50,13 @@ public class Parser
 
         return result;
     }
+
+    Integer convertAngleToCoordinate(double angle, boolean isHorizontal)
+    {
+        if (isHorizontal)
+        {
+            
+        }
+    }
+
 }
