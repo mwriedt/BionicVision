@@ -1,7 +1,5 @@
 package software_a.com.bionicvision;
 
-<<<<<<< HEAD
-=======
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
@@ -16,7 +14,6 @@ import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
->>>>>>> master
 import org.opencv.core.*;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
