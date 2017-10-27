@@ -12,6 +12,9 @@ import org.opencv.core.Mat;
 //|      CameraActivity.                                                      |
 //'==========================================================================='
 
+import java.util.List;
+
+
 public abstract class Algorithm
 {
     private String name = "";
@@ -21,7 +24,7 @@ public abstract class Algorithm
     public String getName() {return name;}
     public void setName(String n) {name = n;}
 
-    abstract Mat process(Mat frame);
+    abstract List<Phosphene> process(Mat frame, List<Phosphene> phospheneGrid, int maxGrid);
 
     Mat InitMatrix(Mat matrix, int[][] array)
     {

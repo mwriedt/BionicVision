@@ -18,7 +18,8 @@ import org.opencv.core.*;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.imgproc.Imgproc.*;
+
+import java.util.List;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,7 +39,17 @@ public class PhospheneRendering {
         this.fov = (float) spacing;
     }
 
-    Mat RenderGridO(Mat data, int width, int height, int noOfCircles, Mat frame)
+    int CPx = 0;
+    int CPy = 0;
+    int valX;
+    int valY;
+    int drawX;
+    int drawY;
+    int CPRawX = 0;
+    int CPRawY = 0;
+    int maxGridSize = 0;
+
+    Mat RenderGrid(List<Phosphene> data, int width, int height, int noOfCircles, Mat frame)
     {
         //Mat& img
         //Point center
@@ -48,93 +59,52 @@ public class PhospheneRendering {
         //int lineTpye
 
         //----- make these funnction params -----
-
+        int maxRad = 5;
+        float fov = 115;
+        double spacing = 1;
         // -------------------------------------
 
         frame.zeros(frame.size(),frame.type());
         Mat temp = new Mat(frame.size(),CvType.CV_8U,new Scalar(0,0,0));
         // Initialise Variables
-        double noOfRows = Math.sqrt(noOfCircles);
-        double noOfColumns = noOfRows;
         int radius = 255/maxRad;
-        Scalar intensity = new Scalar(0);
-        double[] colour = new double[width*height];
-        int count = 0;
-
-        // Determine centerpoints for each grid
-        int cp1Height = height/2;
-        int cp1Width = width/4;
-        int cp2Height = cp1Height;
-        int cp2Width = width - cp1Width;
-
-       // Imgproc.cvtColor(temp,temp, Imgproc.COLOR_GRAY2RGBA, 4);
-
-        org.opencv.core.Point positions[] = new org.opencv.core.Point[noOfCircles];
-        int spacingW = (width/noOfCircles * 7/8)/2;
-        int spacingH = height/noOfCircles * 3/4;
 
 
-
-        // Define Positions
-        for (int i = 0; i < noOfColumns; i++)
+        for (Phosphene p: data)
         {
-            int yPos = spacingH/2 + i * spacingH;
-            for(int j = 0; j < noOfRows; j++)
+            if (p.getIsCP())
             {
-                int xPos = spacingW/2 + (j) * spacingW;
-                org.opencv.core.Point pos = new org.opencv.core.Point(xPos, yPos);
-                positions[i*8 + j] = pos;
-                colour[count] = data.get(i,j)[0];
-                count++;
+                maxGridSize = 2 * p.getxLoc() + 1;
+                CPx = (p.getxLoc() * (width/maxGridSize)/2);
+                CPy  = (p.getyLoc()) * (height/maxGridSize);
+                CPRawX = p.getxLoc();
+                CPRawY = p.getyLoc();
             }
         }
-
-        //Make new array to store rgba colours
-//        Mat intensityArray[] = new Mat[width*height];
-//        for(int i = 0; i < intensityArray.length; i++)
-//        {
-//            intensityArray[i] = new Mat(255,255,255,new Scalar(colour[i]));
-//        }
 
         // Call draw function for each circle
         for (int i = 0; i < noOfCircles; i++)
         {
-            positions[i].y += spacingH * 3;
-            intensity = new Scalar(colour[i]);
-
-            //Crush blacks
+            valX = data.get(i).getxLoc() - CPRawX;
+            valY = data.get(i).getyLoc() - CPRawY;
+            drawX = CPx + (int)(valX * spacing) + (valX * (2 * maxRad));
+            drawY = CPy + (int)(valY * spacing) + (valY * (2 * maxRad));
+            int xPos = drawX;
+            int yPos = drawY;
+            org.opencv.core.Point pos = new org.opencv.core.Point(xPos,yPos);
             double finalcolour;
-            if (colour[i] > 15)
-                finalcolour = (colour[i]-15)/255;
+            if (data.get(i).getIntensity() > 15)
+                finalcolour = (data.get(i).getIntensity())/255;
             else
                 finalcolour = 0;
-
             //Get radius for Phosphene rendering based on Mat value
-            int phospheneRadius = (int)intensity.val[0]/radius;
-            org.opencv.imgproc.Imgproc.circle(temp, positions[i], phospheneRadius, new Scalar(255,255,255,finalcolour), -1);
+            //int phospheneRadius = (int)intensity.val[0]/radius;
+            int phospheneRadius = (int)data.get(i).getIntensity()/radius;
+            org.opencv.imgproc.Imgproc.circle(temp, pos, phospheneRadius, new Scalar(255,255,255,finalcolour), -1);
+            xPos += width/2;
+            pos = new org.opencv.core.Point(xPos,yPos);
+            org.opencv.imgproc.Imgproc.circle(temp, pos, phospheneRadius, new Scalar(255,255,255,finalcolour), -1);
         }
-
-        //Mat tempFrame = new Mat();
-        //double opacity = 0.0;
-
-        for (int i = 0; i < noOfCircles; i++)
-        {
-            positions[i].x += 2*(spacingW + (noOfRows) * spacingW) - 6*(maxRad + spacingH);
-            intensity = new Scalar(colour[i]);
-
-            //Crush blacks
-            double finalcolour;
-            if (colour[i] > 25)
-                finalcolour = (colour[i]-25)/255;
-            else
-                finalcolour = 0;
-
-            //Get radius for Phosphene rendering based on Mat value
-            int phospheneRadius = (int)intensity.val[0]/radius;
-            org.opencv.imgproc.Imgproc.circle(temp, positions[i], phospheneRadius, new Scalar(255,255,255,finalcolour), -1);
-
-        }
-
         temp = GaussianBlur(temp, new Size(9,9));
 
         // record frames
@@ -187,120 +157,37 @@ public class PhospheneRendering {
         return temp;
     }
 
-    Mat RenderGrid(Mat data, int width, int height, int noOfCircles, Mat frame)
+    Mat RenderFromFile(List<Phosphene> data, int width, int noOfCircles, Mat frame, List<Point> positions)
     {
-        int xSpace = 5;
-        int ySpace = 5;
+        // TODO: Also make max radius a funnction parameter
+        int maxRad = 5;
+        int radius = 255/maxRad;
 
         frame.zeros(frame.size(),frame.type());
         Mat temp = new Mat(frame.size(),CvType.CV_8U,new Scalar(0,0,0));
-        // Initialise Variables
-        double noOfRows = Math.sqrt(noOfCircles);
-        double noOfColumns = noOfRows;
-        int radius = 255 / maxRad;
-        Scalar intensity = new Scalar(0);
-        double[] colour = new double[width*height];
-        int count = 0;
-
-        // Determine centerpoints for each grid
-        int cp1Height = height/2;
-        int cp1Width = width/4;
-        int cp2Height = cp1Height;
-        int cp2Width = width - cp1Width;
-
-        int spacing = (int)((fov -(2*(noOfColumns*maxRad)))/(noOfColumns-1));
-
-        int tc1x = (int)(cp1Width - ((noOfRows/2)*maxRad) - (((noOfRows-1)/2) * spacing));
-        int tc1y = (int)(cp1Height - ((noOfColumns/2)*maxRad) - (((noOfColumns-1)/2) * spacing));
-
-        int tc2x = (int)(cp2Width - ((noOfRows/2)*maxRad)- (((noOfRows-1)/2) * xSpace));
-        int tc2y = (int)(cp2Height - ((noOfColumns/2)*maxRad)- (((noOfColumns-1)/2) * ySpace));
-
-        // Imgproc.cvtColor(temp,temp, Imgproc.COLOR_GRAY2RGBA, 4);
-
-        org.opencv.core.Point positions[] = new org.opencv.core.Point[noOfCircles];
-        int spacingW = (width/noOfCircles * 7/8)/2;
-        int spacingH = height/noOfCircles * 3/4;
-
-
-
-        // Define Positions
-       /* for (int i = 0; i < noOfColumns; i++)
-        {
-            int yPos = spacingH/2 + i * spacingH;
-            for(int j = 0; j < noOfRows; j++)
-            {
-                int xPos = spacingW/2 + (j) * spacingW;
-                org.opencv.core.Point pos = new org.opencv.core.Point(xPos, yPos);
-                positions[i*8 + j] = pos;
-                colour[count] = data.get(i,j)[0];
-                count++;
-            }
-        }*/
-        int xStart = tc1x + maxRad;
-        int yStart = tc1y + maxRad;
-        int xPos;
-        int yPos;
-        for (int i =0; i < noOfColumns; i++)
-        {
-            yPos = yStart+(i*(maxRad+spacing));
-            for (int j = 0; j < noOfRows; j++)
-            {
-                xPos = xStart+(j*(maxRad+spacing));
-                org.opencv.core.Point pos = new org.opencv.core.Point(xPos, yPos);
-                positions[i*8 + j] = pos;
-                colour[count] = data.get(i,j)[0];
-                count++;
-            }
-        }
-
-        //Make new array to store rgba colours
-//        Mat intensityArray[] = new Mat[width*height];
-//        for(int i = 0; i < intensityArray.length; i++)
-//        {
-//            intensityArray[i] = new Mat(255,255,255,new Scalar(colour[i]));
-//        }
 
         // Call draw function for each circle
         for (int i = 0; i < noOfCircles; i++)
         {
-           // positions[i].y += spacingH * 3;
-            intensity = new Scalar(colour[i]);
+            // Get location for the next phosphene
+            Point pos = positions.get(i);
 
-            //Crush blacks
             double finalcolour;
-            if (colour[i] > 15)
-                finalcolour = (colour[i]-15)/255;
+            if (data.get(i).getIntensity() > 15)
+                finalcolour = (data.get(i).getIntensity())/255;
             else
                 finalcolour = 0;
 
-            //Get radius for Phosphene rendering based on Mat value
-            int phospheneRadius = (int)intensity.val[0]/radius;
-            org.opencv.imgproc.Imgproc.circle(temp, positions[i], phospheneRadius, new Scalar(255,255,255,finalcolour), -1);
+            // Get radius for Phosphene rendering based on Mat value
+            int phospheneRadius = data.get(i).getIntensity()/radius;
 
+            // Render for Left Eye
+            org.opencv.imgproc.Imgproc.circle(temp, pos, phospheneRadius, new Scalar(255,255,255,finalcolour), -1);
+
+            // Render for Right Eye
+            pos = new Point(positions.get(i).x + width/2, positions.get(i).y); // Move over on X axis
+            org.opencv.imgproc.Imgproc.circle(temp, pos, phospheneRadius, new Scalar(255,255,255,finalcolour), -1);
         }
-
-        //Mat tempFrame = new Mat();
-        //double opacity = 0.0;
-
-        for (int i = 0; i < noOfCircles; i++)
-        {
-            positions[i].x += width/2;
-            intensity = new Scalar(colour[i]);
-
-            //Crush blacks
-            double finalcolour;
-            if (colour[i] > 25)
-                finalcolour = (colour[i]-25)/255;
-            else
-                finalcolour = 0;
-
-            //Get radius for Phosphene rendering based on Mat value
-            int phospheneRadius = (int)intensity.val[0]/radius;
-            org.opencv.imgproc.Imgproc.circle(temp, positions[i], phospheneRadius, new Scalar(255,255,255,finalcolour), -1);
-
-        }
-
         temp = GaussianBlur(temp, new Size(9,9));
 
         // record frames

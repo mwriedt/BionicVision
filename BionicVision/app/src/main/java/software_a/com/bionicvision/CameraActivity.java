@@ -16,10 +16,16 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 
+import java.util.List;
+
 public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2 {
     Algorithm intensity = new IntensityAlgorithm();
     PhospheneRendering renderDots = new PhospheneRendering();
-
+    //TODO: Replace with grid from settings bundle
+    int numOfPhos = 61;
+    int maxListSize = 17;
+    PhospheneMap phospeheneMap = new PhospheneMap(numOfPhos);
+    List<Phosphene> alivePhosphenes = phospeheneMap.getPhosphenes();
     private Algorithm algorithm;
 
     // Used for logging success or failure messages
@@ -125,13 +131,12 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         Mat frame = inputFrame.gray();
 
-        Mat croppedFrame = CroptoFoV(frame, 30);
-
-        Mat intensityMap = intensity.process(croppedFrame);
+        Mat croppedFrame = CroptoFoV(frame, 75);
+        List<Phosphene> intensityMap = intensity.process(croppedFrame, alivePhosphenes, maxListSize);
 
         if (algorithm.getName().equals("Intensity"))
         {
-            return renderDots.RenderGrid(intensityMap, 320, 240, 64, croppedFrame);
+            return renderDots.RenderGrid(intensityMap, 320, 240, numOfPhos, croppedFrame);
         }
 
         return croppedFrame;

@@ -3,6 +3,8 @@ package software_a.com.bionicvision;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
+import java.util.List;
+
 class IntensityAlgorithm extends Algorithm
 {
     IntensityAlgorithm()
@@ -11,36 +13,39 @@ class IntensityAlgorithm extends Algorithm
     }
 
     @Override
-    Mat process(Mat frame)
+    List<Phosphene> process(Mat frame, List<Phosphene> phospheneGrid, int maxGrid)
     {
-        int numRows = 8;
-        int numCols = 8;
+
+       // int numRows = 8;
+       // int numCols = 8;
         int gridIndexX = 0;
         int gridIndexY = 0;
-        Mat intensityMap = new Mat(numRows, numCols, CvType.CV_8U);
+       // Mat intensityMap = new Mat(numRows, numCols, CvType.CV_8U);
         double[] temp;
-        int[][] avgIntent = new int[numRows][numCols];
-
-        for (int a = 0; a < numCols * numRows; a++) {
-        for (int i = (frame.height() / numCols) * gridIndexY; i < (frame.height() / numCols) * (gridIndexY + 1); i += 9) {
-            for (int j = (frame.width() / numRows) * gridIndexX; j < (frame.width() / numRows) * (gridIndexX + 1); j += 19) {
-                temp = frame.get(i, j);
-                avgIntent[gridIndexY][gridIndexX] += temp[0];
-
+        //int[][] avgIntent = new int[numRows][numCols];
+        int avg = 0;
+        int count = 0;
+        int maxListSize = maxGrid; //!!!!MUST BE AN ODD NUMBER!!!!
+        for (Phosphene p: phospheneGrid)
+        {
+            avg = 0;
+            count = 0;
+            gridIndexX = p.getxLoc();
+            gridIndexY = p.getyLoc();
+            for(int i = gridIndexX;i<gridIndexX + frame.width()/maxListSize;i += (frame.width()/maxListSize)/3) //Increment by a third each
+            {
+                for (int j = gridIndexY; j <gridIndexY + frame.height()/maxListSize;j += (frame.height()/maxListSize)/3)//Same
+                {
+                    temp = frame.get(i, j);
+                    avg += temp[0];
+                    count++;
+                }
             }
+            p.setIntensity(avg/count);
         }
 
-        avgIntent[gridIndexY][gridIndexX] /= 9;
-
-        gridIndexX++;
-
-        if (gridIndexX > numRows - 1) {
-            gridIndexX = 0;
-            gridIndexY++;
-        }
-    }
-
-        intensityMap = InitMatrix(intensityMap, avgIntent);
-        return intensityMap;
+        //intensityMap = InitMatrix(intensityMap, avgIntent);
+        //return intensityMap;
+        return phospheneGrid;
     }
 }
