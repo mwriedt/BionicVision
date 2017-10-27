@@ -84,6 +84,41 @@ public class PhospheneRendering {
         return temp;
     }
 
+    Mat RenderFromFile(List<Phosphene> data, int width, int noOfCircles, Mat frame, List<Point> positions)
+    {
+        // TODO: Also make max radius a funnction parameter
+        int maxRad = 5;
+        int radius = 255/maxRad;
+
+        frame.zeros(frame.size(),frame.type());
+        Mat temp = new Mat(frame.size(),CvType.CV_8U,new Scalar(0,0,0));
+
+        // Call draw function for each circle
+        for (int i = 0; i < noOfCircles; i++)
+        {
+            // Get location for the next phosphene
+            Point pos = positions.get(i);
+
+            double finalcolour;
+            if (data.get(i).getIntensity() > 15)
+                finalcolour = (data.get(i).getIntensity())/255;
+            else
+                finalcolour = 0;
+
+            // Get radius for Phosphene rendering based on Mat value
+            int phospheneRadius = data.get(i).getIntensity()/radius;
+
+            // Render for Left Eye
+            org.opencv.imgproc.Imgproc.circle(temp, pos, phospheneRadius, new Scalar(255,255,255,finalcolour), -1);
+
+            // Render for Right Eye
+            pos = new Point(positions.get(i).x + width/2, positions.get(i).y); // Move over on X axis
+            org.opencv.imgproc.Imgproc.circle(temp, pos, phospheneRadius, new Scalar(255,255,255,finalcolour), -1);
+        }
+        temp = GaussianBlur(temp, new Size(9,9));
+        return temp;
+    }
+
     Mat GaussianBlur(Mat data, Size blur)
     {
         Imgproc.GaussianBlur(data,data,blur,3);
