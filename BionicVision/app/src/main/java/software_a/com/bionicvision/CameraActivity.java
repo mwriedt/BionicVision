@@ -20,15 +20,11 @@ import org.opencv.core.CvException;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
-
-<<<<<<< HEAD
 import java.util.List;
-=======
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
->>>>>>> master
 
 public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2 {
 
