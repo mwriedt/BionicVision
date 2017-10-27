@@ -2,6 +2,8 @@ package software_a.com.bionicvision;
 
 import org.opencv.core.Mat;
 
+import java.util.List;
+
 public abstract class Algorithm
 {
     private String name = "";
@@ -20,7 +22,7 @@ public abstract class Algorithm
         name = n;
     }
 
-    abstract Mat process(Mat frame);
+    abstract List<Phosphene> process(Mat frame, List<Phosphene> phospheneGrid, int maxGrid);
 
     Mat InitMatrix(Mat matrix, int[][] array)
     {
