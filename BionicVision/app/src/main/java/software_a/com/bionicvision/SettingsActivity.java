@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity
@@ -27,6 +29,8 @@ public class SettingsActivity extends AppCompatActivity
     private Setting currentSetting;
     static final Integer WRITE_EXST = 0x3;
     static final Integer PCAMERA = 0x5;
+    public ArrayList<File> fileList = new ArrayList<File>();
+    public ArrayList<String> stringFileList = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,47 @@ public class SettingsActivity extends AppCompatActivity
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_settings);
         initialiseUI();
+
+
+        //CSV folder init
+        File out = getFilesDir();
+        File folder = new File(out + "/CSV");
+        boolean success = true;
+
+        // Create folder if it doesn't exist
+        if(!folder.exists())
+        {
+            success = folder.mkdir();
+        }
+
+        //Read CSV Files in folder
+        if(success)
+        {
+            for (File f : folder.listFiles())
+            {
+                fileList.add(f);
+                stringFileList.add(f.getAbsolutePath());
+            }
+            //Spinner filePicker = (Spinner)findViewById(R.id.);
+            Spinner filePicker = (Spinner) findViewById(R.id.spn_filePicker);
+            //=====================
+            // Might need to populate stringFileList with a file location first before compilation
+            //=====================
+            if(stringFileList.size() == 0)
+            {
+                //ArrayList<String> noFilesList = new ArrayList<String>();
+                //noFilesList.add("No Files Foind.");
+                stringFileList.add("No Files Found");
+            }
+            else
+            {
+                filePicker.setAdapter(new ArrayAdapter<String>(this, R.layout.activity_settings, stringFileList));
+            }
+        }
+        else
+        {
+            fileList = new ArrayList<File>();
+        }
     }
 
     private void askForPermission(String permission, Integer requestCode) {
