@@ -17,6 +17,7 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2
@@ -33,6 +34,8 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     int phospheneSize;
     boolean fileLoad;
     boolean phospheneRecording;
+    String fileName;
+    ArrayList<ArrayList<Integer>> phospheneFileCoords;
 
     PhospheneMap phospeheneMap;
     List<Phosphene> alivePhosphenes;
@@ -98,6 +101,13 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         phospheneSize = settingsBundle.getInt("PhospheneSize");
         fileLoad = settingsBundle.getByte("PhospheneLoad") != 0;
         phospheneRecording = settingsBundle.getByte("PhospheneRecording") != 0;
+
+        if (fileLoad)
+        {
+            fileName = settingsBundle.getString("PhospheneFile");
+            Parser mainParser = new Parser(getApplicationContext());
+            phospheneFileCoords = mainParser.readFile(fileName);
+        }
 
         renderDots = new PhospheneRendering(phospheneSize, phospheneSpacing);
         phospeheneMap = new PhospheneMap(phospheneAmount);

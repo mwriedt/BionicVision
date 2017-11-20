@@ -30,7 +30,7 @@ class Parser
         this.fContext = context;
     }
 
-    ArrayList<ArrayList<Integer>> readFile()
+    ArrayList<ArrayList<Integer>> readFile(String fileName)
     {
         ArrayList<ArrayList<Integer>> result = new ArrayList<>();
 
@@ -41,7 +41,7 @@ class Parser
             // each line is split and the angles are converted
             // coordinates are stored in a nested ArrayList for easy access
             AssetManager assetManager = fContext.getAssets();
-            InputStream input = assetManager.open("phosphenes.csv");
+            InputStream input = assetManager.open(fileName);
             InputStreamReader inputReader = new InputStreamReader(input);
             BufferedReader buffReader = new BufferedReader(inputReader);
             String line;

@@ -3,7 +3,6 @@ package software_a.com.bionicvision;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
 class Setting implements Parcelable
 {
     private String phosAlgorithm;
@@ -15,23 +14,27 @@ class Setting implements Parcelable
     private int phosSize;
     private boolean phosLoad;
     private boolean phosRecord;
+    private String phosFile;
 
-    Setting(String alg, int amount, int maxlist, double cfov, double sfov, double spacing, int size, boolean load, boolean record)
+    Setting(String alg, int amount, int maxList, double cfov, double sfov, double spacing, int size,
+            boolean load, boolean record, String file)
     {
-        update(alg, amount, maxlist, cfov, sfov, spacing, size, load, record);
+        update(alg, amount, maxList, cfov, sfov, spacing, size, load, record, file);
     }
 
-    void update(String algorithm, int amount, int maxlist, double cfov, double sfov, double spacing, int size, boolean load, boolean record)
+    void update(String algorithm, int amount, int maxList, double cfov, double sfov, double spacing,
+                int size, boolean load, boolean record, String file)
     {
         this.phosAlgorithm = algorithm;
         this.phosAmount = amount;
-        this.phosMaxList = maxlist;
+        this.phosMaxList = maxList;
         this.phosCFoV = cfov;
         this.phosSFoV = sfov;
         this.phosSpacing = spacing;
         this.phosSize = size;
         this.phosLoad = load;
         this.phosRecord = record;
+        this.phosFile = file;
     }
 
     String getAlgorithm() {return this.phosAlgorithm;}
@@ -43,6 +46,7 @@ class Setting implements Parcelable
     int getPhosSize() {return this.phosSize;}
     boolean getPhosLoad() {return this.phosLoad;}
     boolean getPhosRecord() {return this.phosRecord;}
+    String getPhosFile() {return this.phosFile;}
 
     @Override
     public int describeContents() {return 0;}
@@ -58,6 +62,7 @@ class Setting implements Parcelable
         out.writeInt(phosSize);
         out.writeByte((byte) (phosLoad ? 1 : 0));
         out.writeByte((byte) (phosRecord ? 1 : 0));
+        out.writeString(phosFile);
     }
 
     public String toString() {return phosAlgorithm;}
@@ -79,5 +84,6 @@ class Setting implements Parcelable
         phosSize = in.readInt();
         phosLoad = in.readByte() != 0;
         phosRecord = in.readByte() != 0;
+        phosFile = in.readString();
     }
 }
