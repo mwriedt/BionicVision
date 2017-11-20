@@ -76,9 +76,7 @@ public class LaunchActivity extends AppCompatActivity {
             int outSize = settingsObj.getPhosSize();
             boolean outLoad = settingsObj.getPhosLoad();
             boolean outRecord = settingsObj.getPhosRecord();
-
-            Log.d("TAG", "Spacing (Launch): " + outSpacing);
-            Log.d("TAG", "Size (Launch): " + outSize);
+            String outFile = settingsObj.getPhosFile();
 
             settings.putString("Algorithm", outAlg);
             settings.putInt("PhospheneAmount", outAmount);
@@ -89,13 +87,12 @@ public class LaunchActivity extends AppCompatActivity {
             settings.putInt("PhospheneSize", outSize);
             settings.putByte("PhospheneLoad", (byte) (outLoad ? 1 : 0));
             settings.putByte("PhospheneRecording", (byte) (outRecord ? 1 : 0));
+            settings.putString("PhospheneFile", outFile);
         }
     }
 
     public void goToCamera()
     {
-        Log.d("TAG", "Settings = null: " + (settings.isEmpty()));
-
         if (settings.isEmpty())
         {
             Bundle blankSettings = new Bundle();

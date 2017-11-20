@@ -431,6 +431,10 @@ public class SettingsActivity extends AppCompatActivity
         CheckBox loadView = (CheckBox) findViewById(R.id.chk_load);
         CheckBox recordView = (CheckBox) findViewById(R.id.chk_record);
 
+
+        Spinner fileView = (Spinner) findViewById(R.id.spn_filePicker);
+        String file = fileView.getSelectedItem().toString();
+
         int amount = Integer.parseInt(amountEditView.getText().toString());
         int maxlist = Integer.parseInt(maxlistEditView.getText().toString());
         double cfov = Double.parseDouble(cfovEditView.getText().toString());
@@ -440,16 +444,13 @@ public class SettingsActivity extends AppCompatActivity
         boolean load = loadView.isChecked();
         boolean record = recordView.isChecked();
 
-        Log.d("TAG", "Spacing (settings): " + spacing);
-        Log.d("TAG", "Size (settings): " + size);
-
         if (currentSetting == null)
         {
-            currentSetting = new Setting(algorithm, amount, maxlist, cfov, sfov, spacing, size, load, record);
+            currentSetting = new Setting(algorithm, amount, maxlist, cfov, sfov, spacing, size, load, record, file);
         }
         else
         {
-            currentSetting.update(algorithm, amount, maxlist, cfov, sfov, spacing, size, load, record);
+            currentSetting.update(algorithm, amount, maxlist, cfov, sfov, spacing, size, load, record, file);
         }
     }
 }
