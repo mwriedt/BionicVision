@@ -3,6 +3,7 @@ package software_a.com.bionicvision;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity
@@ -122,9 +124,6 @@ public class SettingsActivity extends AppCompatActivity
         defaultSettings[4] = 10;
         defaultSettings[5] = 5;
 
-        Parser parse = new Parser(getApplicationContext());
-        //ArrayList<ArrayList<Integer>> phosFileOutput = parse.readFile();
-
         Button btnConfirm = (Button) findViewById(R.id.btn_confirm);
         btnConfirm.setOnClickListener(confirmBtnListener);
 
@@ -151,6 +150,11 @@ public class SettingsActivity extends AppCompatActivity
         SeekBar sizeSeekView = (SeekBar) findViewById(R.id.seek_size);
         sizeSeekView.setProgress(defaultSettings[5]);
         EditText sizeEditView = (EditText) findViewById(R.id.edittxt_size);
+
+        Spinner filePicker = (Spinner) findViewById(R.id.spn_filePicker);
+
+        ArrayAdapter<String> fileAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, generateFileLocations());
+        filePicker.setAdapter(fileAdapter);
 
         amountEditView.setText(String.valueOf(amountSeekView.getProgress()));
         maxlistsizeEditView.setText(String.valueOf(maxlistsizeSeekView.getProgress()));
@@ -431,9 +435,13 @@ public class SettingsActivity extends AppCompatActivity
         CheckBox loadView = (CheckBox) findViewById(R.id.chk_load);
         CheckBox recordView = (CheckBox) findViewById(R.id.chk_record);
 
+        String file = "blank";
 
-        Spinner fileView = (Spinner) findViewById(R.id.spn_filePicker);
-        String file = fileView.getSelectedItem().toString();
+        if (recordView.isChecked())
+        {
+            Spinner fileView = (Spinner) findViewById(R.id.spn_filePicker);
+            file = fileView.getSelectedItem().toString();
+        }
 
         int amount = Integer.parseInt(amountEditView.getText().toString());
         int maxlist = Integer.parseInt(maxlistEditView.getText().toString());
@@ -451,6 +459,33 @@ public class SettingsActivity extends AppCompatActivity
         else
         {
             currentSetting.update(algorithm, amount, maxlist, cfov, sfov, spacing, size, load, record, file);
+        }
+    }
+
+    public ArrayList<String> generateFileLocations()
+    {
+        try
+        {
+            AssetManager assetManager = getApplicationContext().getAssets();
+
+            String[] temp = assetManager.list("");
+            ArrayList<String> result = new ArrayList<>();
+
+            for (String file : temp)
+            {
+                if (file.endsWith(".csv"))
+                {
+                    result.add(file);
+                }
+            }
+
+            return result;
+        }
+        catch (IOException e)
+        {
+            ArrayList<String> result = new ArrayList<>();
+            result.add("No entries found");
+            return result;
         }
     }
 }
