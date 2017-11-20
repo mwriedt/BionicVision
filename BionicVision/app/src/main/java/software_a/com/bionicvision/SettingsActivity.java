@@ -40,49 +40,45 @@ public class SettingsActivity extends AppCompatActivity
         initialiseUI();
 
 
-        //Get CSV Files using Parser
-        Parser fileGetter = new Parser(this);
-        ArrayList<ArrayList<Integer>> files = fileGetter.readFile();
-
-        //CSV folder init
-        File out = getFilesDir();
-        File folder = new File(out + "/CSV");
-        boolean success = true;
-
-        // Create folder if it doesn't exist
-        if(!folder.exists())
-        {
-            success = folder.mkdir();
-        }
-
-        //Read CSV Files in folder
-        if(success)
-        {
-            for (File f : folder.listFiles())
-            {
-                fileList.add(f);
-                stringFileList.add(f.getAbsolutePath());
-            }
-            //Spinner filePicker = (Spinner)findViewById(R.id.);
-            Spinner filePicker = (Spinner) findViewById(R.id.spn_filePicker);
-            //=====================
-            // Might need to populate stringFileList with a file location first before compilation
-            //=====================
-            if(stringFileList.size() == 0)
-            {
-                //ArrayList<String> noFilesList = new ArrayList<String>();
-                //noFilesList.add("No Files Foind.");
-                stringFileList.add("No Files Found");
-            }
-            else
-            {
-                filePicker.setAdapter(new ArrayAdapter<String>(this, R.layout.activity_settings, stringFileList));
-            }
-        }
-        else
-        {
-            fileList = new ArrayList<File>();
-        }
+//        //CSV folder init
+//        File out = getFilesDir();
+//        File folder = new File(out + "/CSV");
+//        boolean success = true;
+//
+//        // Create folder if it doesn't exist
+//        if(!folder.exists())
+//        {
+//            success = folder.mkdir();
+//        }
+//
+//        //Read CSV Files in folder
+//        if(success)
+//        {
+//            for (File f : folder.listFiles())
+//            {
+//                fileList.add(f);
+//                stringFileList.add(f.getAbsolutePath());
+//            }
+//            //Spinner filePicker = (Spinner)findViewById(R.id.);
+//            Spinner filePicker = (Spinner) findViewById(R.id.spn_filePicker);
+//            //=====================
+//            // Might need to populate stringFileList with a file location first before compilation
+//            //=====================
+//            if(stringFileList.size() == 0)
+//            {
+//                //ArrayList<String> noFilesList = new ArrayList<String>();
+//                //noFilesList.add("No Files Foind.");
+//                stringFileList.add("No Files Found");
+//            }
+//            else
+//            {
+//                filePicker.setAdapter(new ArrayAdapter<String>(this, R.layout.activity_settings, stringFileList));
+//            }
+//        }
+//        else
+//        {
+//            fileList = new ArrayList<File>();
+//        }
     }
 
     private void askForPermission(String permission, Integer requestCode) {
@@ -127,7 +123,7 @@ public class SettingsActivity extends AppCompatActivity
         defaultSettings[5] = 5;
 
         Parser parse = new Parser(getApplicationContext());
-        ArrayList<ArrayList<Integer>> phosFileOutput = parse.readFile();
+        //ArrayList<ArrayList<Integer>> phosFileOutput = parse.readFile();
 
         Button btnConfirm = (Button) findViewById(R.id.btn_confirm);
         btnConfirm.setOnClickListener(confirmBtnListener);

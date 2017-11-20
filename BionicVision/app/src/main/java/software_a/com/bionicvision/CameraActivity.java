@@ -163,9 +163,20 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
         List<Phosphene> intensityMap = intensity.process(croppedFrame, alivePhosphenes, maxListSize);
 
+        //-----------------------------------
+        //    Add new Algorithms here
+        //-----------------------------------
         if (algorithm.getName().equals("Intensity"))
         {
-            return renderDots.RenderGrid(intensityMap, 320, 240, phospheneAmount, maxListSize, croppedFrame);
+            if (fileLoad)
+            {
+                List<Point> points = ConvertPosDataToPoints(phospheneFileCoords);
+                return renderDots.RenderFromFile(intensityMap, 320, 240, croppedFrame, points);
+            }
+            else
+            {
+                return renderDots.RenderGrid(intensityMap, 320, 240, phospheneAmount, maxListSize, croppedFrame);
+            }
         }
 
         return croppedFrame;
