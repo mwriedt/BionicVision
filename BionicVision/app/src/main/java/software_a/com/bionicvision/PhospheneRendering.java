@@ -1,18 +1,9 @@
 package software_a.com.bionicvision;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.util.DisplayMetrics;
 import android.util.Log;
 
-import org.opencv.android.JavaCameraView;
-import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.CameraBridgeViewBase;
-import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
-import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
-import org.opencv.android.LoaderCallbackInterface;
-import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.*;
 import org.opencv.core.CvType;
@@ -26,49 +17,38 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
-public class PhospheneRendering {
+class PhospheneRendering {
 
-    private int maxRad = 5;
-    private float fov = 1.0f;
+    private int mMaxRad;
+    private float mFov;
+    private double mSpacing;
+    private int CPx = 0;
+    private int CPy = 0;
+    private int valX;
+    private int valY;
+    private int drawX;
+    private int drawY;
+    private int CPRawX = 0;
+    private int CPRawY = 0;
+    private int maxGridSize = 0;
 
     PhospheneRendering() {}
 
     PhospheneRendering(int size, double spacing)
     {
-        this.maxRad = size;
-        this.fov = (float) spacing;
+        this.mMaxRad = size;
+        this.mFov = (float) spacing;
+        this.mSpacing = spacing;
     }
 
-    int CPx = 0;
-    int CPy = 0;
-    int valX;
-    int valY;
-    int drawX;
-    int drawY;
-    int CPRawX = 0;
-    int CPRawY = 0;
-    int maxGridSize = 0;
-
-    Mat RenderGrid(List<Phosphene> data, int width, int height, int noOfCircles, Mat frame)
+    Mat RenderGrid(List<Phosphene> data, int width, int height, int noOfCircles, int gridSize, Mat frame)
     {
-        //Mat& img
-        //Point center
-        //int Radius
-        //const Scalar& color
-        //int thickness
-        //int lineTpye
-
-        //----- make these funnction params -----
-        int maxRad = 5;
-        float fov = 115;
-        double spacing = 1;
-        // -------------------------------------
+        Log.d("TAG", "spacing: " + mSpacing);
 
         frame.zeros(frame.size(),frame.type());
         Mat temp = new Mat(frame.size(),CvType.CV_8U,new Scalar(0,0,0));
         // Initialise Variables
-        int radius = 255/maxRad;
-
+        int radius = 255 / mMaxRad;
 
         for (Phosphene p: data)
         {
@@ -87,8 +67,8 @@ public class PhospheneRendering {
         {
             valX = data.get(i).getxLoc() - CPRawX;
             valY = data.get(i).getyLoc() - CPRawY;
-            drawX = CPx + (int)(valX * spacing) + (valX * (2 * maxRad));
-            drawY = CPy + (int)(valY * spacing) + (valY * (2 * maxRad));
+            drawX = CPx + (int)(valX * mSpacing) + (valX * (2 * mMaxRad));
+            drawY = CPy + (int)(valY * mSpacing) + (valY * (2 * mMaxRad));
             int xPos = drawX;
             int yPos = drawY;
             org.opencv.core.Point pos = new org.opencv.core.Point(xPos,yPos);
@@ -97,9 +77,8 @@ public class PhospheneRendering {
                 finalcolour = (data.get(i).getIntensity())/255;
             else
                 finalcolour = 0;
-            //Get radius for Phosphene rendering based on Mat value
-            //int phospheneRadius = (int)intensity.val[0]/radius;
-            int phospheneRadius = (int)data.get(i).getIntensity()/radius;
+
+            int phospheneRadius = data.get(i).getIntensity()/radius;
             org.opencv.imgproc.Imgproc.circle(temp, pos, phospheneRadius, new Scalar(255,255,255,finalcolour), -1);
             xPos += width/2;
             pos = new org.opencv.core.Point(xPos,yPos);

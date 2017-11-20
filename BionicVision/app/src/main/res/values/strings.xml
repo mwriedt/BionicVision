@@ -31,6 +31,12 @@
     <string name="spacing">Spacing</string>
     <string name="size">Size</string>
     <string name="amount">Amount</string>
+    <string name="fov_camera">Camera FoV</string>
+    <string name="fov_screen">Screen FoV</string>
+    <string name="maxlist_size">MaxList Size</string>
+    <string name="chk_record">Recording</string>
+    <string name="btn_gcamera">Get Camera</string>
+    <string name="btn_gstorage">Get Storage</string>
 
     <string name="creators">Creators
                             \n Aaron Caratelli, Heejoo Kim, Jinsu Park, Justin Adams, and Mitchell Wreidt

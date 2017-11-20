@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -24,21 +25,35 @@
             android:entries="@array/algorithm_array"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/btn_confirm"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chk_load"
+            android:layout_marginRight="0dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.502" />
 
         <TableLayout
             android:id="@+id/table_values"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:padding="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spin_algorithm"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+            app:layout_constraintTop_toBottomOf="@+id/spin_algorithm">
 
             <TableRow
                 android:layout_width="wrap_content"
@@ -47,29 +62,125 @@
                 android:weightSum="3">
 
                 <TextView
-                    android:id="@+id/txt_gamma"
+                    android:id="@+id/txt_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="@string/gamma"/>
+                    android:text="@string/amount"/>
 
                 <SeekBar
-                    android:id="@+id/seek_gamma"
+                    android:id="@+id/seek_amount"
                     style="@style/Widget.AppCompat.SeekBar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:layout_gravity="center_vertical"
-                    android:max="10"
+                    android:layout_weight="2"
+                    android:max="100"
                     android:progress="0"/>
 
                 <EditText
-                    android:id="@+id/edittxt_gamma"
+                    android:id="@+id/edittxt_amount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:ems="10"
-                    android:inputType="numberDecimal|numberSigned"/>
+                    android:inputType="number"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/txt_maxlistsize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/maxlist_size"/>
+
+                <SeekBar
+                    android:id="@+id/seek_maxlistsize"
+                    style="@style/Widget.AppCompat.SeekBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="2"
+                    android:max="100"
+                    android:progress="0"/>
+
+                <EditText
+                    android:id="@+id/edittxt_maxlistsize"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:ems="10"
+                    android:inputType="number"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/txt_fovcamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/fov_camera"/>
+
+                <SeekBar
+                    android:id="@+id/seek_fovcamera"
+                    style="@style/Widget.AppCompat.SeekBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="2"
+                    android:max="100"
+                    android:progress="0"/>
+
+                <EditText
+                    android:id="@+id/edittxt_fovcamera"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:ems="10"
+                    android:inputType="number"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/txt_fovscreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/fov_screen"/>
+
+                <SeekBar
+                    android:id="@+id/seek_fovscreen"
+                    style="@style/Widget.AppCompat.SeekBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="2"
+                    android:max="100"
+                    android:progress="0"/>
+
+                <EditText
+                    android:id="@+id/edittxt_fovscreen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:ems="10"
+                    android:inputType="number"/>
             </TableRow>
 
             <TableRow
@@ -90,8 +201,8 @@
                     style="@style/Widget.AppCompat.SeekBar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="2"
                     android:max="256"
                     android:progress="0"/>
 
@@ -102,38 +213,6 @@
                     android:layout_weight="0.5"
                     android:ems="10"
                     android:inputType="numberDecimal"/>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:weightSum="3">
-
-                <TextView
-                    android:id="@+id/txt_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/amount"/>
-
-                <SeekBar
-                    android:id="@+id/seek_amount"
-                    style="@style/Widget.AppCompat.SeekBar"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:layout_gravity="center_vertical"
-                    android:max="100"
-                    android:progress="0"/>
-
-                <EditText
-                    android:id="@+id/edittxt_amount"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:ems="10"
-                    android:inputType="number"/>
             </TableRow>
 
             <TableRow
@@ -154,8 +233,8 @@
                     style="@style/Widget.AppCompat.SeekBar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="2"
                     android:max="32"
                     android:progress="0"/>
 
@@ -169,56 +248,46 @@
             </TableRow>
         </TableLayout>
 
+        <Button
+            android:id="@+id/btn_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="ask"
+            android:text="@string/btn_gcamera"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/table_values"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/btn_storage"/>
+
+        <Button
+            android:id="@+id/btn_storage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="ask"
+            android:text="@string/btn_gstorage"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/table_values"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/btn_camera"/>
+
         <CheckBox
             android:id="@+id/chk_load"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/chk_load"
-            app:layout_constraintTop_toBottomOf="@+id/table_values"
-            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/btn_camera"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="68dp" />
+            app:layout_constraintRight_toLeftOf="@+id/chk_record"/>
 
-        <Button
-            android:id="@+id/btn_confirm"
+        <CheckBox
+            android:id="@+id/chk_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/btn_confirm"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chk_load"
-            android:layout_marginRight="8dp"
+            android:text="@string/chk_record"
+            app:layout_constraintLeft_toRightOf="@+id/chk_load"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.52"
-            />
-
-        <Button
-            android:id="@+id/btnC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="52dp"
-            android:layout_marginStart="72dp"
-            android:onClick="ask"
-            android:text="GetCamera"
-            app:layout_constraintBottom_toTopOf="@+id/chk_load"
-            app:layout_constraintLeft_toLeftOf="parent"
-            tools:layout_constraintBottom_creator="1"
-            tools:layout_constraintLeft_creator="1" />
-
-        <Button
-            android:id="@+id/btnS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="65dp"
-            android:onClick="ask"
-            android:text="GetStorage"
-            app:layout_constraintBottom_toTopOf="@+id/chk_load"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:layout_constraintBottom_creator="1"
-            tools:layout_constraintRight_creator="1" />
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/btn_storage" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

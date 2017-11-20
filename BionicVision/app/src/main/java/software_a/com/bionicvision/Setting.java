@@ -7,33 +7,42 @@ import android.os.Parcelable;
 class Setting implements Parcelable
 {
     private String phosAlgorithm;
-    private double phosGamma;
+    private int phosAmount;
+    private int phosMaxList;
+    private double phosCFoV;
+    private double phosSFoV;
     private double phosSpacing;
-    private int phosNumber;
     private int phosSize;
     private boolean phosLoad;
+    private boolean phosRecord;
 
-    Setting(String alg, double gamma, double spacing, int number, int size, boolean load)
+    Setting(String alg, int amount, int maxlist, double cfov, double sfov, double spacing, int size, boolean load, boolean record)
     {
-        update(alg, gamma, spacing, number, size, load);
+        update(alg, amount, maxlist, cfov, sfov, spacing, size, load, record);
     }
 
-    void update(String algorithm, double gamma, double spacing, int number, int size, boolean load)
+    void update(String algorithm, int amount, int maxlist, double cfov, double sfov, double spacing, int size, boolean load, boolean record)
     {
         this.phosAlgorithm = algorithm;
-        this.phosGamma = gamma;
+        this.phosAmount = amount;
+        this.phosMaxList = maxlist;
+        this.phosCFoV = cfov;
+        this.phosSFoV = sfov;
         this.phosSpacing = spacing;
-        this.phosNumber = number;
         this.phosSize = size;
         this.phosLoad = load;
+        this.phosRecord = record;
     }
 
     String getAlgorithm() {return this.phosAlgorithm;}
-    double getPhosGamma() {return this.phosGamma;}
+    int getPhosAmount() {return this.phosAmount;}
+    int getPhosMaxList() {return this.phosMaxList;}
+    double getPhosCFoV() {return this.phosCFoV;}
+    double getPhosSFoV() {return this.phosSFoV;}
     double getPhosSpacing() {return this.phosSpacing;}
-    int getPhosAmount() {return this.phosNumber;}
     int getPhosSize() {return this.phosSize;}
     boolean getPhosLoad() {return this.phosLoad;}
+    boolean getPhosRecord() {return this.phosRecord;}
 
     @Override
     public int describeContents() {return 0;}
@@ -41,11 +50,14 @@ class Setting implements Parcelable
     public void writeToParcel(Parcel out, int flags)
     {
         out.writeString(phosAlgorithm);
-        out.writeDouble(phosGamma);
+        out.writeInt(phosAmount);
+        out.writeInt(phosMaxList);
+        out.writeDouble(phosCFoV);
+        out.writeDouble(phosSFoV);
         out.writeDouble(phosSpacing);
-        out.writeInt(phosNumber);
         out.writeInt(phosSize);
         out.writeByte((byte) (phosLoad ? 1 : 0));
+        out.writeByte((byte) (phosRecord ? 1 : 0));
     }
 
     public String toString() {return phosAlgorithm;}
@@ -59,10 +71,13 @@ class Setting implements Parcelable
     private Setting(Parcel in)
     {
         phosAlgorithm = in.readString();
-        phosGamma = in.readDouble();
+        phosAmount = in.readInt();
+        phosMaxList = in.readInt();
+        phosCFoV = in.readDouble();
+        phosSFoV = in.readDouble();
         phosSpacing = in.readDouble();
-        phosNumber = in.readInt();
         phosSize = in.readInt();
         phosLoad = in.readByte() != 0;
+        phosRecord = in.readByte() != 0;
     }
 }

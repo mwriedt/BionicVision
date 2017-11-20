@@ -56,10 +56,10 @@ public class SettingsActivity extends AppCompatActivity
     }
     public void ask(View v){
     switch (v.getId()){
-        case R.id.btnS:
+        case R.id.btn_storage:
             askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,WRITE_EXST);
             break;
-        case R.id.btnC:
+        case R.id.btn_camera:
             askForPermission(Manifest.permission.CAMERA,PCAMERA);
             break;
         default:
@@ -69,35 +69,61 @@ public class SettingsActivity extends AppCompatActivity
 
     private void initialiseUI()
     {
+        int[] defaultSettings = new int[6];
+        defaultSettings[0] = 13;
+        defaultSettings[1] = 5;
+        defaultSettings[2] = 75;
+        defaultSettings[3] = 0;
+        defaultSettings[4] = 10;
+        defaultSettings[5] = 5;
+
         Parser parse = new Parser(getApplicationContext());
         ArrayList<ArrayList<Integer>> phosFileOutput = parse.readFile();
-
-        Log.d("PHOS", "Phosphene X: " + phosFileOutput.get(0).get(0));
-        Log.d("PHOS", "Phosphene Y: " + phosFileOutput.get(0).get(1));
 
         Button btnConfirm = (Button) findViewById(R.id.btn_confirm);
         btnConfirm.setOnClickListener(confirmBtnListener);
 
-        SeekBar gammaSeekView = (SeekBar) findViewById(R.id.seek_gamma);
-        EditText gammaEditView = (EditText) findViewById(R.id.edittxt_gamma);
-        SeekBar spacingSeekView = (SeekBar) findViewById(R.id.seek_spacing);
-        EditText spacingEditView = (EditText) findViewById(R.id.edittxt_spacing);
         SeekBar amountSeekView = (SeekBar) findViewById(R.id.seek_amount);
+        amountSeekView.setProgress(defaultSettings[0]);
         EditText amountEditView = (EditText) findViewById(R.id.edittxt_amount);
+
+        SeekBar maxlistsizeSeekView = (SeekBar) findViewById(R.id.seek_maxlistsize);
+        maxlistsizeSeekView.setProgress(defaultSettings[1]);
+        EditText maxlistsizeEditView = (EditText) findViewById(R.id.edittxt_maxlistsize);
+
+        SeekBar fovcameraSeekView = (SeekBar) findViewById(R.id.seek_fovcamera);
+        fovcameraSeekView.setProgress(defaultSettings[2]);
+        EditText fovcameraEditView = (EditText) findViewById(R.id.edittxt_fovcamera);
+
+        SeekBar fovscreenSeekView = (SeekBar) findViewById(R.id.seek_fovscreen);
+        fovscreenSeekView.setProgress(defaultSettings[3]);
+        EditText fovscreenEditView = (EditText) findViewById(R.id.edittxt_fovscreen);
+
+        SeekBar spacingSeekView = (SeekBar) findViewById(R.id.seek_spacing);
+        spacingSeekView.setProgress(defaultSettings[4]);
+        EditText spacingEditView = (EditText) findViewById(R.id.edittxt_spacing);
+
         SeekBar sizeSeekView = (SeekBar) findViewById(R.id.seek_size);
+        sizeSeekView.setProgress(defaultSettings[5]);
         EditText sizeEditView = (EditText) findViewById(R.id.edittxt_size);
 
-        gammaEditView.setText(String.valueOf(gammaSeekView.getProgress()));
-        spacingEditView.setText(String.valueOf(spacingSeekView.getProgress()));
         amountEditView.setText(String.valueOf(amountSeekView.getProgress()));
+        maxlistsizeEditView.setText(String.valueOf(maxlistsizeSeekView.getProgress()));
+        fovcameraEditView.setText(String.valueOf(fovscreenSeekView.getProgress()));
+        fovscreenEditView.setText(String.valueOf(fovscreenSeekView.getProgress()));
+        spacingEditView.setText(String.valueOf(spacingSeekView.getProgress()));
         sizeEditView.setText(String.valueOf(sizeSeekView.getProgress()));
 
-        gammaSeekView.setOnSeekBarChangeListener(gammaSeekChangeListener);
-        gammaEditView.setOnFocusChangeListener(gammaFocusListener);
-        spacingSeekView.setOnSeekBarChangeListener(spacingSeekChangeListener);
-        spacingEditView.setOnFocusChangeListener(spacingFocusListener);
         amountSeekView.setOnSeekBarChangeListener(amountSeekChangeListener);
         amountEditView.setOnFocusChangeListener(amountFocusListener);
+        maxlistsizeSeekView.setOnSeekBarChangeListener(maxlistsizeSeekChangeListener);
+        maxlistsizeEditView.setOnFocusChangeListener(maxlistsizeFocusListener);
+        fovcameraSeekView.setOnSeekBarChangeListener(fovcameraSeekChangeListener);
+        fovcameraEditView.setOnFocusChangeListener(fovcameraFocusListener);
+        fovscreenSeekView.setOnSeekBarChangeListener(fovscreenSeekChangeListener);
+        fovscreenEditView.setOnFocusChangeListener(fovscreenFocusListener);
+        spacingSeekView.setOnSeekBarChangeListener(spacingSeekChangeListener);
+        spacingEditView.setOnFocusChangeListener(spacingFocusListener);
         sizeSeekView.setOnSeekBarChangeListener(sizeSeekChangeListener);
         sizeEditView.setOnFocusChangeListener(sizeFocusListener);
     }
@@ -111,91 +137,6 @@ public class SettingsActivity extends AppCompatActivity
         }
     };
 
-    OnSeekBarChangeListener gammaSeekChangeListener = new OnSeekBarChangeListener()
-    {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-        {
-            EditText gammaEditView = (EditText) findViewById(R.id.edittxt_gamma);
-            gammaEditView.setText(String.valueOf(progress));
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar)
-        {
-
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar)
-        {
-
-        }
-    };
-
-    OnFocusChangeListener gammaFocusListener = new OnFocusChangeListener()
-    {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus)
-        {
-            if (!hasFocus)
-            {
-                SeekBar gammaSeekView = (SeekBar) findViewById(R.id.seek_gamma);
-
-                if (((EditText) v).getText().toString().equals(""))
-                {
-                    gammaSeekView.setProgress(0);
-                }
-
-                String progValue = ((EditText) v).getText().toString();
-                gammaSeekView.setProgress(Integer.parseInt(progValue));
-            }
-        }
-    };
-
-    OnSeekBarChangeListener spacingSeekChangeListener = new OnSeekBarChangeListener()
-    {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-        {
-            EditText spacingEditView = (EditText) findViewById(R.id.edittxt_spacing);
-            spacingEditView.setText(String.valueOf(progress));
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar)
-        {
-
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar)
-        {
-
-        }
-    };
-
-    OnFocusChangeListener spacingFocusListener = new OnFocusChangeListener()
-    {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus)
-        {
-            if (!hasFocus)
-            {
-                SeekBar spacingSeekView = (SeekBar) findViewById(R.id.seek_spacing);
-
-                if (((EditText) v).getText().toString().equals(""))
-                {
-                    spacingSeekView.setProgress(0);
-                }
-
-                String progValue = ((EditText) v).getText().toString();
-                spacingSeekView.setProgress(Integer.parseInt(progValue));
-            }
-        }
-    };
-
-
     OnSeekBarChangeListener amountSeekChangeListener = new OnSeekBarChangeListener()
     {
         @Override
@@ -206,16 +147,10 @@ public class SettingsActivity extends AppCompatActivity
         }
 
         @Override
-        public void onStartTrackingTouch(SeekBar seekBar)
-        {
-
-        }
+        public void onStartTrackingTouch(SeekBar seekBar) {}
 
         @Override
-        public void onStopTrackingTouch(SeekBar seekBar)
-        {
-
-        }
+        public void onStopTrackingTouch(SeekBar seekBar) {}
     };
 
     OnFocusChangeListener amountFocusListener = new OnFocusChangeListener()
@@ -234,6 +169,150 @@ public class SettingsActivity extends AppCompatActivity
 
                 String progValue = ((EditText) v).getText().toString();
                 amountSeekView.setProgress(Integer.parseInt(progValue));
+            }
+        }
+    };
+
+    OnSeekBarChangeListener maxlistsizeSeekChangeListener = new OnSeekBarChangeListener()
+    {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+        {
+            EditText maxlistsizeEditView = (EditText) findViewById(R.id.edittxt_maxlistsize);
+            maxlistsizeEditView.setText(String.valueOf(progress));
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {}
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {}
+    };
+
+    OnFocusChangeListener maxlistsizeFocusListener = new OnFocusChangeListener()
+    {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus)
+        {
+            if (!hasFocus)
+            {
+                SeekBar maxlistsizeSeekView = (SeekBar) findViewById(R.id.seek_maxlistsize);
+
+                if (((EditText) v).getText().toString().equals(""))
+                {
+                    maxlistsizeSeekView.setProgress(0);
+                }
+
+                String progValue = ((EditText) v).getText().toString();
+                maxlistsizeSeekView.setProgress(Integer.parseInt(progValue));
+            }
+        }
+    };
+
+    OnSeekBarChangeListener fovcameraSeekChangeListener = new OnSeekBarChangeListener()
+    {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+        {
+            EditText fovcameraEditView = (EditText) findViewById(R.id.edittxt_fovcamera);
+            fovcameraEditView.setText(String.valueOf(progress));
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {}
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {}
+    };
+
+    OnFocusChangeListener fovcameraFocusListener = new OnFocusChangeListener()
+    {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus)
+        {
+            if (!hasFocus)
+            {
+                SeekBar fovcameraSeekView = (SeekBar) findViewById(R.id.seek_fovcamera);
+
+                if (((EditText) v).getText().toString().equals(""))
+                {
+                    fovcameraSeekView.setProgress(0);
+                }
+
+                String progValue = ((EditText) v).getText().toString();
+                fovcameraSeekView.setProgress(Integer.parseInt(progValue));
+            }
+        }
+    };
+
+    OnSeekBarChangeListener fovscreenSeekChangeListener = new OnSeekBarChangeListener()
+    {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+        {
+            EditText fovscreenEditView = (EditText) findViewById(R.id.edittxt_fovscreen);
+            fovscreenEditView.setText(String.valueOf(progress));
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {}
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {}
+    };
+
+    OnFocusChangeListener fovscreenFocusListener = new OnFocusChangeListener()
+    {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus)
+        {
+            if (!hasFocus)
+            {
+                SeekBar fovscreenSeekView = (SeekBar) findViewById(R.id.seek_fovscreen);
+
+                if (((EditText) v).getText().toString().equals(""))
+                {
+                    fovscreenSeekView.setProgress(0);
+                }
+
+                String progValue = ((EditText) v).getText().toString();
+                fovscreenSeekView.setProgress(Integer.parseInt(progValue));
+            }
+        }
+    };
+
+    OnSeekBarChangeListener spacingSeekChangeListener = new OnSeekBarChangeListener()
+    {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+        {
+            EditText spacingEditView = (EditText) findViewById(R.id.edittxt_spacing);
+            spacingEditView.setText(String.valueOf(progress));
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {}
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {}
+    };
+
+    OnFocusChangeListener spacingFocusListener = new OnFocusChangeListener()
+    {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus)
+        {
+            if (!hasFocus)
+            {
+                SeekBar spacingSeekView = (SeekBar) findViewById(R.id.seek_spacing);
+
+                if (((EditText) v).getText().toString().equals(""))
+                {
+                    spacingSeekView.setProgress(0);
+                }
+
+                String progValue = ((EditText) v).getText().toString();
+                spacingSeekView.setProgress(Integer.parseInt(progValue));
             }
         }
     };
@@ -298,25 +377,34 @@ public class SettingsActivity extends AppCompatActivity
         Spinner algorithmView = (Spinner) findViewById(R.id.spin_algorithm);
         String algorithm = algorithmView.getSelectedItem().toString();
 
-        EditText gammaEditView = (EditText) findViewById(R.id.edittxt_gamma);
-        double gamma = Double.parseDouble(gammaEditView.getText().toString());
-        EditText spacingEditView = (EditText) findViewById(R.id.edittxt_spacing);
-        double spacing = Double.parseDouble(spacingEditView.getText().toString());
         EditText amountEditView = (EditText) findViewById(R.id.edittxt_amount);
-        int amount = Integer.parseInt(amountEditView.getText().toString());
+        EditText maxlistEditView = (EditText) findViewById(R.id.edittxt_maxlistsize);
+        EditText cfovEditView = (EditText) findViewById(R.id.edittxt_fovcamera);
+        EditText sfovEditView = (EditText) findViewById(R.id.edittxt_fovscreen);
+        EditText spacingEditView = (EditText) findViewById(R.id.edittxt_spacing);
         EditText sizeEditView = (EditText) findViewById(R.id.edittxt_size);
-        int size = Integer.parseInt(sizeEditView.getText().toString());
-
         CheckBox loadView = (CheckBox) findViewById(R.id.chk_load);
+        CheckBox recordView = (CheckBox) findViewById(R.id.chk_record);
+
+        int amount = Integer.parseInt(amountEditView.getText().toString());
+        int maxlist = Integer.parseInt(maxlistEditView.getText().toString());
+        double cfov = Double.parseDouble(cfovEditView.getText().toString());
+        double sfov = Double.parseDouble(sfovEditView.getText().toString());
+        double spacing = Double.parseDouble(spacingEditView.getText().toString());
+        int size = Integer.parseInt(sizeEditView.getText().toString());
         boolean load = loadView.isChecked();
+        boolean record = recordView.isChecked();
+
+        Log.d("TAG", "Spacing (settings): " + spacing);
+        Log.d("TAG", "Size (settings): " + size);
 
         if (currentSetting == null)
         {
-            currentSetting = new Setting(algorithm, gamma, spacing, amount, size, load);
+            currentSetting = new Setting(algorithm, amount, maxlist, cfov, sfov, spacing, size, load, record);
         }
         else
         {
-            currentSetting.update(algorithm, gamma, spacing, amount, size, load);
+            currentSetting.update(algorithm, amount, maxlist, cfov, sfov, spacing, size, load, record);
         }
     }
 }

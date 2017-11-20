@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.Window;
 import android.view.WindowManager;
 
 import org.opencv.android.JavaCameraView;
@@ -18,32 +19,45 @@ import org.opencv.core.Rect;
 
 import java.util.List;
 
-public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2 {
+public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2
+{
     Algorithm intensity = new IntensityAlgorithm();
     PhospheneRendering renderDots = new PhospheneRendering();
-    //TODO: Replace with grid from settings bundle
-    int numOfPhos = 61;
-    int maxListSize = 17;
-    PhospheneMap phospeheneMap = new PhospheneMap(numOfPhos);
-    List<Phosphene> alivePhosphenes = phospeheneMap.getPhosphenes();
+
     private Algorithm algorithm;
+    int phospheneAmount;
+    int maxListSize;
+    double cameraFoV;
+    double screenFoV;
+    double phospheneSpacing;
+    int phospheneSize;
+    boolean fileLoad;
+    boolean phospheneRecording;
+
+    PhospheneMap phospeheneMap;
+    List<Phosphene> alivePhosphenes;
 
     // Used for logging success or failure messages
-    private static final String TAG = "OCVSample::Activity";
+    private static final String TAG = "BIONIC::CameraActivity";
 
-    // Loads camera view of OpenCV for us to use. This lets us see using OpenCV
+    // Loads camera view of OpenCV to be displayed when the Activity is run
     private CameraBridgeViewBase mOpenCvCameraView;
 
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this)
+    {
         @Override
-        public void onManagerConnected(int status) {
-            switch (status) {
-                case LoaderCallbackInterface.SUCCESS: {
+        public void onManagerConnected(int status)
+        {
+            switch (status)
+            {
+                case LoaderCallbackInterface.SUCCESS:
+                {
                     Log.i(TAG, "OpenCV loaded successfully");
                     mOpenCvCameraView.enableView();
                 }
                 break;
-                default: {
+                default:
+                {
                     super.onManagerConnected(status);
                 }
                 break;
@@ -51,15 +65,14 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         }
     };
 
-    public CameraActivity() {
-        Log.i(TAG, "Instantiated new " + this.getClass());
-    }
+    public CameraActivity() {Log.i(TAG, "Instantiated new " + this.getClass());}
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        requestWindowFeature(getWindow().FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -77,14 +90,18 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     {
         Bundle settingsBundle = getIntent().getExtras();
         String alg = settingsBundle.getString("Algorithm");
-        double gamma = settingsBundle.getDouble("PhospheneGamma");
-        double spacing = settingsBundle.getDouble("PhospheneSpacing");
-        int amount = settingsBundle.getInt("PhospheneAmount");
-        int size = settingsBundle.getInt("PhospheneSize");
-        byte loadB = settingsBundle.getByte("PhospheneLoad");
-        boolean load = loadB != 0;
+        phospheneAmount = settingsBundle.getInt("PhospheneAmount");
+        maxListSize = settingsBundle.getInt("PhospheneMaxListSize");
+        cameraFoV = settingsBundle.getDouble("PhospheneCameraFoV");
+        screenFoV = settingsBundle.getDouble("PhospheneScreenFoV");
+        phospheneSpacing = settingsBundle.getDouble("PhospheneSpacing");
+        phospheneSize = settingsBundle.getInt("PhospheneSize");
+        fileLoad = settingsBundle.getByte("PhospheneLoad") != 0;
+        phospheneRecording = settingsBundle.getByte("PhospheneRecording") != 0;
 
-        renderDots = new PhospheneRendering(size, spacing);
+        renderDots = new PhospheneRendering(phospheneSize, phospheneSpacing);
+        phospeheneMap = new PhospheneMap(phospheneAmount);
+        alivePhosphenes = phospeheneMap.getPhosphenes();
 
         if (alg == null)
         {
@@ -92,8 +109,7 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         }
         else
         {
-            AlgorithmSwitch theSwitch = new AlgorithmSwitch();
-            algorithm = theSwitch.choose(alg);
+            algorithm = AlgorithmSwitch.choose(alg);
         }
     }
 
@@ -132,32 +148,31 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         Mat frame = inputFrame.gray();
 
         Mat croppedFrame = CroptoFoV(frame, 75);
+
         List<Phosphene> intensityMap = intensity.process(croppedFrame, alivePhosphenes, maxListSize);
 
         if (algorithm.getName().equals("Intensity"))
         {
-            return renderDots.RenderGrid(intensityMap, 320, 240, numOfPhos, croppedFrame);
+            return renderDots.RenderGrid(intensityMap, 320, 240, phospheneAmount, maxListSize, croppedFrame);
         }
 
         return croppedFrame;
     }
 
-    public Mat CroptoFoV(Mat Current, int FoV)
+    public Mat CroptoFoV(Mat current, int fov)
     {
-        FieldOfView FoVObject = new FieldOfView();
-
-        int width = FoVObject.CalculateCaptureFoV(FoV, Current.width());
-        int height = FoVObject.CalculateCaptureFoV(FoV, Current.height());
+        int width = FieldOfView.CalculateCaptureFoV(fov, current.width());
+        int height = FieldOfView.CalculateCaptureFoV(fov, current.height());
 
         // Setup a rectangle to define your region of interest
-        Rect cropRegion = new Rect((Current.width()-width)/2, (Current.height()-height)/2, width, height);
+        Rect cropRegion = new Rect((current.width()-width)/2, (current.height()-height)/2, width, height);
 
-        Mat croppedImage = Current.zeros(Current.size(),Current.type());
+        Mat croppedImage = Mat.zeros(current.size(),current.type());
 
         // Crop the full image to that image contained by the rectangle myROI
         // Note that this doesn't copy the data
-        //Current.submat(cropRegion).copyTo(croppedImage.submat(cropRegion));
-        org.opencv.imgproc.Imgproc.resize(Current.submat(cropRegion), croppedImage, Current.size());
+        //current.submat(cropRegion).copyTo(croppedImage.submat(cropRegion));
+        org.opencv.imgproc.Imgproc.resize(current.submat(cropRegion), croppedImage, current.size());
         return croppedImage;
     }
 }
