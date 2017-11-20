@@ -49,12 +49,17 @@ class Parser
             while ((line = buffReader.readLine()) != null)
             {
                 String[] splitLine = line.split(",");
-                ArrayList<Integer> phosVals = new ArrayList<>(1);
+                for (int i = 0; i < splitLine.length; i++)
+                {
+                    ArrayList<Integer> phosVals = new ArrayList<>(1);
 
-                phosVals.add(convertAngleToCoordinates(Double.parseDouble(splitLine[0]), true));
-                phosVals.add(convertAngleToCoordinates(Double.parseDouble(splitLine[1]), false));
+                    phosVals.add(convertAngleToCoordinates(Double.parseDouble(splitLine[i]), true));
+                    phosVals.add(convertAngleToCoordinates(Double.parseDouble(splitLine[i+1]), false));
 
-                result.add(phosVals);
+                    result.add(phosVals);
+                    i++;
+                }
+
             }
 
             buffReader.close();

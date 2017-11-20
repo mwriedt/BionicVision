@@ -171,7 +171,7 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
             if (fileLoad)
             {
                 List<Point> points = ConvertPosDataToPoints(phospheneFileCoords);
-                return renderDots.RenderFromFile(intensityMap, 320, 240, croppedFrame, points);
+                return renderDots.RenderFromFile(intensityMap, 320, croppedFrame, points);
             }
             else
             {
@@ -204,7 +204,7 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         ArrayList<Point> points = new ArrayList<Point>();
         for (ArrayList<Integer> a : list)
         {
-            points.add(new Point((double)a.indexOf(0), (double)a.indexOf(0)));
+            points.add(new Point((double)a.get(0), (double)a.get(1)));
         }
 
         return points;

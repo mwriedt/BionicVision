@@ -136,11 +136,12 @@ class PhospheneRendering {
         return temp;
     }
 
-    Mat RenderFromFile(List<Phosphene> data, int width, int noOfCircles, Mat frame, List<Point> positions)
+    Mat RenderFromFile(List<Phosphene> data, int width, Mat frame, List<Point> positions)
     {
         // TODO: Also make max radius a funnction parameter
         int maxRad = 5;
         int radius = 255/maxRad;
+        int noOfCircles = positions.size();
 
         frame.zeros(frame.size(),frame.type());
         Mat temp = new Mat(frame.size(),CvType.CV_8U,new Scalar(0,0,0));

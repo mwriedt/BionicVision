@@ -437,7 +437,7 @@ public class SettingsActivity extends AppCompatActivity
 
         String file = "blank";
 
-        if (recordView.isChecked())
+        if (loadView.isChecked())
         {
             Spinner fileView = (Spinner) findViewById(R.id.spn_filePicker);
             file = fileView.getSelectedItem().toString();
