@@ -15,10 +15,12 @@ import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2
 {
@@ -184,6 +186,17 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         //current.submat(cropRegion).copyTo(croppedImage.submat(cropRegion));
         org.opencv.imgproc.Imgproc.resize(current.submat(cropRegion), croppedImage, current.size());
         return croppedImage;
+    }
+
+    public List<org.opencv.core.Point> ConvertPosDataToPoints(ArrayList<ArrayList<Integer>> list)
+    {
+        ArrayList<Point> points = new ArrayList<Point>();
+        for (ArrayList<Integer> a : list)
+        {
+            points.add(new Point((double)a.indexOf(0), (double)a.indexOf(0)));
+        }
+
+        return points;
     }
 }
 

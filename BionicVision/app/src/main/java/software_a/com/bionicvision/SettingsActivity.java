@@ -40,6 +40,10 @@ public class SettingsActivity extends AppCompatActivity
         initialiseUI();
 
 
+        //Get CSV Files using Parser
+        Parser fileGetter = new Parser(this);
+        ArrayList<ArrayList<Integer>> files = fileGetter.readFile();
+
         //CSV folder init
         File out = getFilesDir();
         File folder = new File(out + "/CSV");
