@@ -1,33 +1,32 @@
 package software_a.com.bionicvision;
-/**
- * Created by Mitchell on 10/10/2017.
- */
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhospheneMap {
-    //public ArrayList<ArrayList<Phosphene>> phospheneBuilder;
-    List<List<Phosphene>> phospheneBuilder;// = new List<List<Phosphene>>();
-    List<Phosphene> temp;
-    int phosCount;
-    int layer;
+class PhospheneMap
+{
+    private List<List<Phosphene>> phospheneBuilder;
+    private int phosCount;
+    private int layer;
+
     PhospheneMap(int numOfPhos)
     {
-        phosCount = numOfPhos - 1; //Take one away to include centre point
+        phosCount = numOfPhos - 1; // take one away to include centre point
         phospheneBuilder = new ArrayList<>();
-        temp = new ArrayList<>();
-        for (int i = 0; i < 17; i++) //Max size of 17 by 17
+
+        for (int i = 0; i < 17; i++) // max size of 17 by 17
         {
-            temp = new ArrayList<>();
+            List<Phosphene> temp = new ArrayList<>();
             for (int j = 0; j < 17; j++)
             {
-                layer = getLayer(i,j); //Get the layer that this location should be at
-                temp.add(new Phosphene(i,j, layer)); //Create the phosphene at that location
+                layer = getLayer(i,j); // get the layer that this location should be at
+                temp.add(new Phosphene(i,j, layer)); // create the phosphene at that location
             }
-            phospheneBuilder.add(temp); //Add the list of new phosphenes
-        }
-        CreateCP(); //Create the centre point in the map
 
+            phospheneBuilder.add(temp); // add the list of new phosphenes
+        }
+
+        CreateCP(); //Create the centre point in the map
         BuildMap(); //Build the map
     }
 

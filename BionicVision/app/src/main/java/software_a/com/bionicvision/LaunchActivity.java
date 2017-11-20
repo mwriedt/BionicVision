@@ -3,6 +3,7 @@ package software_a.com.bionicvision;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -67,32 +68,46 @@ public class LaunchActivity extends AppCompatActivity {
             Setting settingsObj = settingsList.get(0);
 
             String outAlg = settingsObj.getAlgorithm();
-            double outGamma = settingsObj.getPhosGamma();
-            double outSpacing = settingsObj.getPhosSpacing();
             int outAmount = settingsObj.getPhosAmount();
+            int outMaxList = settingsObj.getPhosMaxList();
+            double outCameraFoV = settingsObj.getPhosCFoV();
+            double outScreenFoV = settingsObj.getPhosSFoV();
+            double outSpacing = settingsObj.getPhosSpacing();
             int outSize = settingsObj.getPhosSize();
             boolean outLoad = settingsObj.getPhosLoad();
+            boolean outRecord = settingsObj.getPhosRecord();
+
+            Log.d("TAG", "Spacing (Launch): " + outSpacing);
+            Log.d("TAG", "Size (Launch): " + outSize);
 
             settings.putString("Algorithm", outAlg);
-            settings.putDouble("PhospheneGamma", outGamma);
-            settings.putDouble("PhospheneSpacing", outSpacing);
             settings.putInt("PhospheneAmount", outAmount);
+            settings.putInt("PhospheneMaxListSize", outMaxList);
+            settings.putDouble("PhospheneCameraFoV", outCameraFoV);
+            settings.putDouble("PhospheneScreenFoV", outScreenFoV);
+            settings.putDouble("PhospheneSpacing", outSpacing);
             settings.putInt("PhospheneSize", outSize);
             settings.putByte("PhospheneLoad", (byte) (outLoad ? 1 : 0));
+            settings.putByte("PhospheneRecording", (byte) (outRecord ? 1 : 0));
         }
     }
 
     public void goToCamera()
     {
-        if (settings == null)
+        Log.d("TAG", "Settings = null: " + (settings.isEmpty()));
+
+        if (settings.isEmpty())
         {
             Bundle blankSettings = new Bundle();
             blankSettings.putString("Algorithm", "Blank");
-            blankSettings.putDouble("PhospheneGamma", 0.0);
-            blankSettings.putDouble("PhospheneSpacing", 1.0);
-            blankSettings.putInt("PhospheneAmount", 64);
+            blankSettings.putInt("PhospheneAmount", 13);
+            blankSettings.putInt("PhospheneMaxListSize", 5);
+            blankSettings.putDouble("PhospheneCameraFoV", 75);
+            blankSettings.putDouble("PhospheneScreenFoV", 0);
+            blankSettings.putDouble("PhospheneSpacing", 10.0);
             blankSettings.putInt("PhospheneSize", 16);
             blankSettings.putByte("PhospheneLoad", (byte) 0);
+            blankSettings.putByte("PhospheneRecording", (byte) 0);
 
             Intent cameraIntent = new Intent();
             cameraIntent.setClass(getApplicationContext(), CameraActivity.class);
@@ -114,8 +129,5 @@ public class LaunchActivity extends AppCompatActivity {
         startActivityForResult(i, 0);
     }
 
-    public void goToAbout()
-    {
-        startActivity(new Intent(LaunchActivity.this, AboutActivity.class));
-    }
+    public void goToAbout() {startActivity(new Intent(LaunchActivity.this, AboutActivity.class));}
 }
