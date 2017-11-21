@@ -213,6 +213,7 @@ public class SettingsActivity extends AppCompatActivity
 
                 if (((EditText) v).getText().toString().equals(""))
                 {
+                    ((EditText) v).setText("0");
                     amountSeekView.setProgress(0);
                 }
 
@@ -249,6 +250,7 @@ public class SettingsActivity extends AppCompatActivity
 
                 if (((EditText) v).getText().toString().equals(""))
                 {
+                    ((EditText) v).setText("0");
                     maxlistsizeSeekView.setProgress(0);
                 }
 
@@ -285,6 +287,7 @@ public class SettingsActivity extends AppCompatActivity
 
                 if (((EditText) v).getText().toString().equals(""))
                 {
+                    ((EditText) v).setText("0");
                     fovcameraSeekView.setProgress(0);
                 }
 
@@ -321,6 +324,7 @@ public class SettingsActivity extends AppCompatActivity
 
                 if (((EditText) v).getText().toString().equals(""))
                 {
+                    ((EditText) v).setText("0");
                     fovscreenSeekView.setProgress(0);
                 }
 
@@ -357,6 +361,7 @@ public class SettingsActivity extends AppCompatActivity
 
                 if (((EditText) v).getText().toString().equals(""))
                 {
+                    ((EditText) v).setText("0");
                     spacingSeekView.setProgress(0);
                 }
 
@@ -399,6 +404,7 @@ public class SettingsActivity extends AppCompatActivity
 
                 if (((EditText) v).getText().toString().equals(""))
                 {
+                    ((EditText) v).setText("0");
                     sizeSeekView.setProgress(0);
                 }
 

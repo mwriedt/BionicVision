@@ -18,7 +18,7 @@ class FieldOfView
 
         // calculate 'distance' to convert triangle to pixels
         double distance = (maxLength / 2) / Math.tan(theta);
-        System.out.println("Distnace: " + distance);
+        System.out.println("Distance: " + distance);
 
         // STAGE 2: Calculate height at given angle
 

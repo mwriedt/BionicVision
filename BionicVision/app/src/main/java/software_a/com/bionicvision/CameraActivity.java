@@ -109,6 +109,8 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
             fileName = settingsBundle.getString("PhospheneFile");
             Parser mainParser = new Parser(getApplicationContext());
             phospheneFileCoords = mainParser.readFile(fileName);
+
+            Log.d("TAG", "FileAngle: " + phospheneFileCoords);
         }
 
         renderDots = new PhospheneRendering(phospheneSize, phospheneSpacing);
@@ -159,7 +161,9 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         Mat frame = inputFrame.gray();
 
-        Mat croppedFrame = CroptoFoV(frame, 75);
+        Log.d("TAG", "Camera FoV: " + cameraFoV);
+
+        Mat croppedFrame = CroptoFoV(frame, (int) cameraFoV);
 
         List<Phosphene> intensityMap = intensity.process(croppedFrame, alivePhosphenes, maxListSize);
 
