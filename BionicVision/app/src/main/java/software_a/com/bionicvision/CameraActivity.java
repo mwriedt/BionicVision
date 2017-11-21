@@ -113,7 +113,7 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
             Log.d("TAG", "FileAngle: " + phospheneFileCoords);
         }
 
-        renderDots = new PhospheneRendering(phospheneSize, phospheneSpacing);
+        renderDots = new PhospheneRendering(phospheneSize, phospheneSpacing, screenFoV);
         phospeheneMap = new PhospheneMap(phospheneAmount);
         alivePhosphenes = phospeheneMap.getPhosphenes();
 

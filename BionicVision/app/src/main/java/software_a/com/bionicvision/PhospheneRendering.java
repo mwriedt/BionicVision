@@ -20,7 +20,7 @@ import java.util.Random;
 class PhospheneRendering {
 
     private int mMaxRad;
-    private float mFov;
+    private double mFov;
     private double mSpacing;
     private int CPx = 0;
     private int CPy = 0;
@@ -34,10 +34,10 @@ class PhospheneRendering {
 
     PhospheneRendering() {}
 
-    PhospheneRendering(int size, double spacing)
+    PhospheneRendering(int size, double spacing, double fov)
     {
         this.mMaxRad = size;
-        this.mFov = (float) spacing;
+        this.mFov = fov;
         this.mSpacing = spacing;
     }
 
@@ -67,8 +67,8 @@ class PhospheneRendering {
         {
             valX = data.get(i).getxLoc() - CPRawX;
             valY = data.get(i).getyLoc() - CPRawY;
-            drawX = CPx + (int)(valX * mSpacing) + (valX * (2 * mMaxRad));
-            drawY = CPy + (int)(valY * mSpacing) + (valY * (2 * mMaxRad));
+            drawX = CPx + (int)Math.ceil((valX * mSpacing) + (valX * (2 * mMaxRad))*(mFov/75));
+            drawY = CPy + (int)Math.ceil((valY * mSpacing) + (valY * (2 * mMaxRad))*(mFov/75));
             int xPos = drawX;
             int yPos = drawY;
             org.opencv.core.Point pos = new org.opencv.core.Point(xPos,yPos);

@@ -81,6 +81,8 @@ class Parser
 
         if (isHorizontal)
         {
+            //192.913 is the density of pixels
+            //6 and 8 are for the 8:6 ratio
             return (int) Math.ceil(((2 * (Math.tan(Math.toRadians(angle)))) * 192.913) / 8);
         }
         else
