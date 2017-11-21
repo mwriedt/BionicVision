@@ -111,7 +111,7 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
             phospheneFileCoords = mainParser.readFile(fileName);
         }
 
-        renderDots = new PhospheneRendering(phospheneSize, phospheneSpacing);
+        renderDots = new PhospheneRendering(phospheneSize, phospheneSpacing, screenFoV);
         phospeheneMap = new PhospheneMap(phospheneAmount);
         alivePhosphenes = phospeheneMap.getPhosphenes();
 

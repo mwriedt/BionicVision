@@ -79,11 +79,11 @@ class Parser
     {
         if (isHorizontal)
         {
-            return (int) Math.ceil(((2 * + Math.tan(angle)) * 192.913) / 8);
-        }
+            return (int) Math.ceil(((2 * (1 + Math.tan(angle))) * 192.913) / 8); //192.913 is the density of pixels
+        }                                                                        //6 and 8 are for the 8:6 ratio
         else
         {
-            return (int) Math.ceil(((2 * + Math.tan(angle)) * 192.913) / 6);
+            return (int) Math.ceil(((2 * (1 + Math.tan(angle))) * 192.913) / 6);
         }
     }
 }
