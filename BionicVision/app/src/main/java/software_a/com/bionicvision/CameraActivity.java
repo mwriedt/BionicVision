@@ -20,7 +20,6 @@ import org.opencv.core.Rect;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
 
 public class CameraActivity extends AppCompatActivity implements CvCameraViewListener2
 {
@@ -29,7 +28,6 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
     private Algorithm algorithm;
     int phospheneAmount;
-    int maxListSize;
     double cameraFoV;
     double screenFoV;
     double phospheneSpacing;
@@ -96,7 +94,6 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
         Bundle settingsBundle = getIntent().getExtras();
         String alg = settingsBundle.getString("Algorithm");
         phospheneAmount = settingsBundle.getInt("PhospheneAmount");
-        maxListSize = settingsBundle.getInt("PhospheneMaxListSize");
         cameraFoV = settingsBundle.getDouble("PhospheneCameraFoV");
         screenFoV = settingsBundle.getDouble("PhospheneScreenFoV");
         phospheneSpacing = settingsBundle.getDouble("PhospheneSpacing");
@@ -165,7 +162,7 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
         Mat croppedFrame = CroptoFoV(frame, (int) cameraFoV);
 
-        List<Phosphene> intensityMap = intensity.process(croppedFrame, alivePhosphenes, maxListSize);
+        List<Phosphene> intensityMap = intensity.process(croppedFrame, alivePhosphenes, 5);
 
         //-----------------------------------
         //    Add new Algorithms here
@@ -179,7 +176,7 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
             }
             else
             {
-                return renderDots.RenderGrid(intensityMap, 320, 240, phospheneAmount, maxListSize, croppedFrame);
+                return renderDots.RenderGrid(intensityMap, 320, 240, phospheneAmount, croppedFrame);
             }
         }
 
@@ -205,7 +202,7 @@ public class CameraActivity extends AppCompatActivity implements CvCameraViewLis
 
     public List<org.opencv.core.Point> ConvertPosDataToPoints(ArrayList<ArrayList<Integer>> list)
     {
-        ArrayList<Point> points = new ArrayList<Point>();
+        ArrayList<Point> points = new ArrayList<>();
         for (ArrayList<Integer> a : list)
         {
             points.add(new Point((double)a.get(0), (double)a.get(1)));

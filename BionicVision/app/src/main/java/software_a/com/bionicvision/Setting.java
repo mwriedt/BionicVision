@@ -7,7 +7,6 @@ class Setting implements Parcelable
 {
     private String phosAlgorithm;
     private int phosAmount;
-    private int phosMaxList;
     private double phosCFoV;
     private double phosSFoV;
     private double phosSpacing;
@@ -16,18 +15,17 @@ class Setting implements Parcelable
     private boolean phosRecord;
     private String phosFile;
 
-    Setting(String alg, int amount, int maxList, double cfov, double sfov, double spacing, int size,
+    Setting(String alg, int amount, double cfov, double sfov, double spacing, int size,
             boolean load, boolean record, String file)
     {
-        update(alg, amount, maxList, cfov, sfov, spacing, size, load, record, file);
+        update(alg, amount, cfov, sfov, spacing, size, load, record, file);
     }
 
-    void update(String algorithm, int amount, int maxList, double cfov, double sfov, double spacing,
+    void update(String algorithm, int amount, double cfov, double sfov, double spacing,
                 int size, boolean load, boolean record, String file)
     {
         this.phosAlgorithm = algorithm;
         this.phosAmount = amount;
-        this.phosMaxList = maxList;
         this.phosCFoV = cfov;
         this.phosSFoV = sfov;
         this.phosSpacing = spacing;
@@ -39,7 +37,6 @@ class Setting implements Parcelable
 
     String getAlgorithm() {return this.phosAlgorithm;}
     int getPhosAmount() {return this.phosAmount;}
-    int getPhosMaxList() {return this.phosMaxList;}
     double getPhosCFoV() {return this.phosCFoV;}
     double getPhosSFoV() {return this.phosSFoV;}
     double getPhosSpacing() {return this.phosSpacing;}
@@ -55,7 +52,6 @@ class Setting implements Parcelable
     {
         out.writeString(phosAlgorithm);
         out.writeInt(phosAmount);
-        out.writeInt(phosMaxList);
         out.writeDouble(phosCFoV);
         out.writeDouble(phosSFoV);
         out.writeDouble(phosSpacing);
@@ -77,7 +73,6 @@ class Setting implements Parcelable
     {
         phosAlgorithm = in.readString();
         phosAmount = in.readInt();
-        phosMaxList = in.readInt();
         phosCFoV = in.readDouble();
         phosSFoV = in.readDouble();
         phosSpacing = in.readDouble();

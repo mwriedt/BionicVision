@@ -2,6 +2,7 @@ package software_a.com.bionicvision;
 
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.opencv.android.Utils;
@@ -24,13 +25,8 @@ class PhospheneRendering {
     private double mSpacing;
     private int CPx = 0;
     private int CPy = 0;
-    private int valX;
-    private int valY;
-    private int drawX;
-    private int drawY;
     private int CPRawX = 0;
     private int CPRawY = 0;
-    private int maxGridSize = 0;
 
     PhospheneRendering() {}
 
@@ -41,11 +37,11 @@ class PhospheneRendering {
         this.mSpacing = spacing;
     }
 
-    Mat RenderGrid(List<Phosphene> data, int width, int height, int noOfCircles, int gridSize, Mat frame)
+    Mat RenderGrid(List<Phosphene> data, int width, int height, int noOfCircles, Mat frame)
     {
         Log.d("TAG", "spacing: " + mSpacing);
 
-        frame.zeros(frame.size(),frame.type());
+        Mat.zeros(frame.size(),frame.type());
         Mat temp = new Mat(frame.size(),CvType.CV_8U,new Scalar(0,0,0));
         // Initialise Variables
         int radius = 255 / mMaxRad;
@@ -54,7 +50,7 @@ class PhospheneRendering {
         {
             if (p.getIsCP())
             {
-                maxGridSize = 2 * p.getxLoc() + 1;
+                int maxGridSize = 2 * p.getxLoc() + 1;
                 CPx = (p.getxLoc() * (width/maxGridSize)/2);
                 CPy  = (p.getyLoc()) * (height/maxGridSize);
                 CPRawX = p.getxLoc();
@@ -65,10 +61,10 @@ class PhospheneRendering {
         // Call draw function for each circle
         for (int i = 0; i < noOfCircles; i++)
         {
-            valX = data.get(i).getxLoc() - CPRawX;
-            valY = data.get(i).getyLoc() - CPRawY;
-            drawX = CPx + (int)Math.ceil((valX * mSpacing) + (valX * (2 * mMaxRad))*(mFov/75));
-            drawY = CPy + (int)Math.ceil((valY * mSpacing) + (valY * (2 * mMaxRad))*(mFov/75));
+            int valX = data.get(i).getxLoc() - CPRawX;
+            int valY = data.get(i).getyLoc() - CPRawY;
+            int drawX = CPx + (int)Math.ceil((valX * mSpacing) + (valX * (2 * mMaxRad))*(mFov/75));
+            int drawY = CPy + (int)Math.ceil((valY * mSpacing) + (valY * (2 * mMaxRad))*(mFov/75));
             int xPos = drawX;
             int yPos = drawY;
             org.opencv.core.Point pos = new org.opencv.core.Point(xPos,yPos);
@@ -88,6 +84,7 @@ class PhospheneRendering {
 
         // record frames
         Bitmap bmp = null;
+
         try {
             bmp = Bitmap.createBitmap(frame.cols(), frame.rows(), Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(frame, bmp);
@@ -115,6 +112,7 @@ class PhospheneRendering {
 
             try {
                 out = new FileOutputStream(dest);
+
                 bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
                 // PNG is a lossless format, the compression factor (100) is ignored
 
@@ -142,7 +140,7 @@ class PhospheneRendering {
         int radius = 255/maxRad;
         int noOfCircles = positions.size();
 
-        frame.zeros(frame.size(),frame.type());
+        Mat.zeros(frame.size(),frame.type());
         Mat temp = new Mat(frame.size(),CvType.CV_8U,new Scalar(0,0,0));
 
         // Call draw function for each circle
@@ -201,14 +199,13 @@ class PhospheneRendering {
                 bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
                 // PNG is a lossless format, the compression factor (100) is ignored
 
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
                 Log.d("TAG", e.getMessage());
             } finally {
                 try {
                     if (out != null) {
                         out.close();
-                        Log.d("TAG", "OK!!");
                     }
                 } catch (IOException e) {
                     Log.d("TAG", e.getMessage() + "Error");

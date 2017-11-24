@@ -14,7 +14,7 @@
     <string name="settings_depth">Depth Perception</string>
     <string-array name="algorithm_array">
         <item>Intensity</item>
-        <item>Edge Detection</item>
+        <item>Blank</item>
     </string-array>
 
     <string name="chk_load">Phosphene Map From CSV</string>

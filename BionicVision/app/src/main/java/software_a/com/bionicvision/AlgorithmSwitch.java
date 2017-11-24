@@ -11,8 +11,6 @@ class AlgorithmSwitch
         {
             case ("Intensity"):
                 return new IntensityAlgorithm();
-            case ("Edge Detection"):
-                return new EdgeDetectionAlgorithm();
             case ("Blank"):
                 return new BlankAlgorithm();
         }

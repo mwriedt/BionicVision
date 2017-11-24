@@ -21,7 +21,6 @@ class FieldOfView
         System.out.println("Distance: " + distance);
 
         // STAGE 2: Calculate height at given angle
-
         // Use the Cosine Rule to evaluate the height of the frame
         double height = distance * Math.tan(degrees / 2);
 
