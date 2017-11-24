@@ -77,13 +77,17 @@ class Parser
     // horizontal ratio is different to verticle ratio
     private int convertAngleToCoordinates(double angle, boolean isHorizontal)
     {
+        Log.d("TAG", "FileAngle: " + angle);
+
         if (isHorizontal)
         {
-            return (int) Math.ceil(((2 * (1 + Math.tan(angle))) * 192.913) / 8); //192.913 is the density of pixels
-        }                                                                        //6 and 8 are for the 8:6 ratio
+            //192.913 is the density of pixels
+            //6 and 8 are for the 8:6 ratio
+            return (int) Math.ceil(((2 * (Math.tan(Math.toRadians(angle)))) * 192.913) / 8);
+        }
         else
         {
-            return (int) Math.ceil(((2 * (1 + Math.tan(angle))) * 192.913) / 6);
+            return (int) Math.ceil(((2 * (Math.tan(Math.toRadians(angle)))) * 192.913) / 6);
         }
     }
 }

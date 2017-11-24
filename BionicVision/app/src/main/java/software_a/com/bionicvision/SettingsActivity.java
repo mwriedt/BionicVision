@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -22,7 +21,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -31,98 +29,60 @@ public class SettingsActivity extends AppCompatActivity
     private Setting currentSetting;
     static final Integer WRITE_EXST = 0x3;
     static final Integer PCAMERA = 0x5;
-    public ArrayList<File> fileList = new ArrayList<File>();
-    public ArrayList<String> stringFileList = new ArrayList<String>();
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_settings);
         initialiseUI();
-
-
-//        //CSV folder init
-//        File out = getFilesDir();
-//        File folder = new File(out + "/CSV");
-//        boolean success = true;
-//
-//        // Create folder if it doesn't exist
-//        if(!folder.exists())
-//        {
-//            success = folder.mkdir();
-//        }
-//
-//        //Read CSV Files in folder
-//        if(success)
-//        {
-//            for (File f : folder.listFiles())
-//            {
-//                fileList.add(f);
-//                stringFileList.add(f.getAbsolutePath());
-//            }
-//            //Spinner filePicker = (Spinner)findViewById(R.id.);
-//            Spinner filePicker = (Spinner) findViewById(R.id.spn_filePicker);
-//            //=====================
-//            // Might need to populate stringFileList with a file location first before compilation
-//            //=====================
-//            if(stringFileList.size() == 0)
-//            {
-//                //ArrayList<String> noFilesList = new ArrayList<String>();
-//                //noFilesList.add("No Files Foind.");
-//                stringFileList.add("No Files Found");
-//            }
-//            else
-//            {
-//                filePicker.setAdapter(new ArrayAdapter<String>(this, R.layout.activity_settings, stringFileList));
-//            }
-//        }
-//        else
-//        {
-//            fileList = new ArrayList<File>();
-//        }
     }
 
-    private void askForPermission(String permission, Integer requestCode) {
-        if (ContextCompat.checkSelfPermission(SettingsActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(SettingsActivity.this, permission)) {
-
-                //This is called if user has denied the permission before
-                //In this case I am just asking the permission again
-                ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{permission}, requestCode);
-
-            } else {
-
+    private void askForPermission(String permission, Integer requestCode)
+    {
+        if (ContextCompat.checkSelfPermission(SettingsActivity.this, permission) != PackageManager.PERMISSION_GRANTED)
+        {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(SettingsActivity.this, permission))
+            {
+                // this is called if user has denied the permission before
                 ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{permission}, requestCode);
             }
-        } else {
+            else
+            {
+                ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{permission}, requestCode);
+            }
+        }
+        else
+        {
             Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
         }
     }
-    public void ask(View v){
-    switch (v.getId()){
-        case R.id.btn_storage:
-            askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,WRITE_EXST);
-            break;
-        case R.id.btn_camera:
-            askForPermission(Manifest.permission.CAMERA,PCAMERA);
-            break;
-        default:
-            break;
+
+    public void ask(View v)
+    {
+        switch (v.getId())
+        {
+            case R.id.btn_storage:
+                askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_EXST);
+                break;
+            case R.id.btn_camera:
+                askForPermission(Manifest.permission.CAMERA, PCAMERA);
+                break;
+            default:
+                break;
+        }
     }
-}
 
     private void initialiseUI()
     {
         int[] defaultSettings = new int[6];
         defaultSettings[0] = 13;
-        defaultSettings[1] = 5;
+        defaultSettings[1] = 30;
         defaultSettings[2] = 75;
-        defaultSettings[3] = 0;
-        defaultSettings[4] = 10;
-        defaultSettings[5] = 5;
+        defaultSettings[3] = 2;
+        defaultSettings[4] = 5;
 
         Button btnConfirm = (Button) findViewById(R.id.btn_confirm);
         btnConfirm.setOnClickListener(confirmBtnListener);
@@ -131,24 +91,20 @@ public class SettingsActivity extends AppCompatActivity
         amountSeekView.setProgress(defaultSettings[0]);
         EditText amountEditView = (EditText) findViewById(R.id.edittxt_amount);
 
-        SeekBar maxlistsizeSeekView = (SeekBar) findViewById(R.id.seek_maxlistsize);
-        maxlistsizeSeekView.setProgress(defaultSettings[1]);
-        EditText maxlistsizeEditView = (EditText) findViewById(R.id.edittxt_maxlistsize);
-
         SeekBar fovcameraSeekView = (SeekBar) findViewById(R.id.seek_fovcamera);
-        fovcameraSeekView.setProgress(defaultSettings[2]);
+        fovcameraSeekView.setProgress(defaultSettings[1]);
         EditText fovcameraEditView = (EditText) findViewById(R.id.edittxt_fovcamera);
 
         SeekBar fovscreenSeekView = (SeekBar) findViewById(R.id.seek_fovscreen);
-        fovscreenSeekView.setProgress(defaultSettings[3]);
+        fovscreenSeekView.setProgress(defaultSettings[2]);
         EditText fovscreenEditView = (EditText) findViewById(R.id.edittxt_fovscreen);
 
         SeekBar spacingSeekView = (SeekBar) findViewById(R.id.seek_spacing);
-        spacingSeekView.setProgress(defaultSettings[4]);
+        spacingSeekView.setProgress(defaultSettings[3]);
         EditText spacingEditView = (EditText) findViewById(R.id.edittxt_spacing);
 
         SeekBar sizeSeekView = (SeekBar) findViewById(R.id.seek_size);
-        sizeSeekView.setProgress(defaultSettings[5]);
+        sizeSeekView.setProgress(defaultSettings[4]);
         EditText sizeEditView = (EditText) findViewById(R.id.edittxt_size);
 
         Spinner filePicker = (Spinner) findViewById(R.id.spn_filePicker);
@@ -157,16 +113,13 @@ public class SettingsActivity extends AppCompatActivity
         filePicker.setAdapter(fileAdapter);
 
         amountEditView.setText(String.valueOf(amountSeekView.getProgress()));
-        maxlistsizeEditView.setText(String.valueOf(maxlistsizeSeekView.getProgress()));
-        fovcameraEditView.setText(String.valueOf(fovscreenSeekView.getProgress()));
+        fovcameraEditView.setText(String.valueOf(fovcameraSeekView.getProgress()));
         fovscreenEditView.setText(String.valueOf(fovscreenSeekView.getProgress()));
         spacingEditView.setText(String.valueOf(spacingSeekView.getProgress()));
         sizeEditView.setText(String.valueOf(sizeSeekView.getProgress()));
 
         amountSeekView.setOnSeekBarChangeListener(amountSeekChangeListener);
         amountEditView.setOnFocusChangeListener(amountFocusListener);
-        maxlistsizeSeekView.setOnSeekBarChangeListener(maxlistsizeSeekChangeListener);
-        maxlistsizeEditView.setOnFocusChangeListener(maxlistsizeFocusListener);
         fovcameraSeekView.setOnSeekBarChangeListener(fovcameraSeekChangeListener);
         fovcameraEditView.setOnFocusChangeListener(fovcameraFocusListener);
         fovscreenSeekView.setOnSeekBarChangeListener(fovscreenSeekChangeListener);
@@ -213,47 +166,12 @@ public class SettingsActivity extends AppCompatActivity
 
                 if (((EditText) v).getText().toString().equals(""))
                 {
-                    amountSeekView.setProgress(0);
+                    ((EditText) v).setText("1");
+                    amountSeekView.setProgress(1);
                 }
 
                 String progValue = ((EditText) v).getText().toString();
-                amountSeekView.setProgress(Integer.parseInt(progValue));
-            }
-        }
-    };
-
-    OnSeekBarChangeListener maxlistsizeSeekChangeListener = new OnSeekBarChangeListener()
-    {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-        {
-            EditText maxlistsizeEditView = (EditText) findViewById(R.id.edittxt_maxlistsize);
-            maxlistsizeEditView.setText(String.valueOf(progress));
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {}
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {}
-    };
-
-    OnFocusChangeListener maxlistsizeFocusListener = new OnFocusChangeListener()
-    {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus)
-        {
-            if (!hasFocus)
-            {
-                SeekBar maxlistsizeSeekView = (SeekBar) findViewById(R.id.seek_maxlistsize);
-
-                if (((EditText) v).getText().toString().equals(""))
-                {
-                    maxlistsizeSeekView.setProgress(0);
-                }
-
-                String progValue = ((EditText) v).getText().toString();
-                maxlistsizeSeekView.setProgress(Integer.parseInt(progValue));
+                amountSeekView.setProgress(Integer.parseInt(progValue) + 1);
             }
         }
     };
@@ -285,11 +203,12 @@ public class SettingsActivity extends AppCompatActivity
 
                 if (((EditText) v).getText().toString().equals(""))
                 {
-                    fovcameraSeekView.setProgress(0);
+                    ((EditText) v).setText("1");
+                    fovcameraSeekView.setProgress(1);
                 }
 
                 String progValue = ((EditText) v).getText().toString();
-                fovcameraSeekView.setProgress(Integer.parseInt(progValue));
+                fovcameraSeekView.setProgress(Integer.parseInt(progValue) + 1);
             }
         }
     };
@@ -321,11 +240,12 @@ public class SettingsActivity extends AppCompatActivity
 
                 if (((EditText) v).getText().toString().equals(""))
                 {
-                    fovscreenSeekView.setProgress(0);
+                    ((EditText) v).setText("1");
+                    fovscreenSeekView.setProgress(1);
                 }
 
                 String progValue = ((EditText) v).getText().toString();
-                fovscreenSeekView.setProgress(Integer.parseInt(progValue));
+                fovscreenSeekView.setProgress(Integer.parseInt(progValue) + 1);
             }
         }
     };
@@ -357,11 +277,12 @@ public class SettingsActivity extends AppCompatActivity
 
                 if (((EditText) v).getText().toString().equals(""))
                 {
-                    spacingSeekView.setProgress(0);
+                    ((EditText) v).setText("1");
+                    spacingSeekView.setProgress(1);
                 }
 
                 String progValue = ((EditText) v).getText().toString();
-                spacingSeekView.setProgress(Integer.parseInt(progValue));
+                spacingSeekView.setProgress(Integer.parseInt(progValue) + 1);
             }
         }
     };
@@ -376,16 +297,10 @@ public class SettingsActivity extends AppCompatActivity
         }
 
         @Override
-        public void onStartTrackingTouch(SeekBar seekBar)
-        {
-
-        }
+        public void onStartTrackingTouch(SeekBar seekBar) {}
 
         @Override
-        public void onStopTrackingTouch(SeekBar seekBar)
-        {
-
-        }
+        public void onStopTrackingTouch(SeekBar seekBar) {}
     };
 
     OnFocusChangeListener sizeFocusListener = new OnFocusChangeListener()
@@ -399,11 +314,12 @@ public class SettingsActivity extends AppCompatActivity
 
                 if (((EditText) v).getText().toString().equals(""))
                 {
-                    sizeSeekView.setProgress(0);
+                    ((EditText) v).setText("1");
+                    sizeSeekView.setProgress(1);
                 }
 
                 String progValue = ((EditText) v).getText().toString();
-                sizeSeekView.setProgress(Integer.parseInt(progValue));
+                sizeSeekView.setProgress(Integer.parseInt(progValue) + 1);
             }
         }
     };
@@ -427,7 +343,6 @@ public class SettingsActivity extends AppCompatActivity
         String algorithm = algorithmView.getSelectedItem().toString();
 
         EditText amountEditView = (EditText) findViewById(R.id.edittxt_amount);
-        EditText maxlistEditView = (EditText) findViewById(R.id.edittxt_maxlistsize);
         EditText cfovEditView = (EditText) findViewById(R.id.edittxt_fovcamera);
         EditText sfovEditView = (EditText) findViewById(R.id.edittxt_fovscreen);
         EditText spacingEditView = (EditText) findViewById(R.id.edittxt_spacing);
@@ -444,7 +359,6 @@ public class SettingsActivity extends AppCompatActivity
         }
 
         int amount = Integer.parseInt(amountEditView.getText().toString());
-        int maxlist = Integer.parseInt(maxlistEditView.getText().toString());
         double cfov = Double.parseDouble(cfovEditView.getText().toString());
         double sfov = Double.parseDouble(sfovEditView.getText().toString());
         double spacing = Double.parseDouble(spacingEditView.getText().toString());
@@ -454,11 +368,11 @@ public class SettingsActivity extends AppCompatActivity
 
         if (currentSetting == null)
         {
-            currentSetting = new Setting(algorithm, amount, maxlist, cfov, sfov, spacing, size, load, record, file);
+            currentSetting = new Setting(algorithm, amount, cfov, sfov, spacing, size, load, record, file);
         }
         else
         {
-            currentSetting.update(algorithm, amount, maxlist, cfov, sfov, spacing, size, load, record, file);
+            currentSetting.update(algorithm, amount, cfov, sfov, spacing, size, load, record, file);
         }
     }
 

@@ -38,7 +38,7 @@ class PhospheneMap
         phospheneBuilder.get(8).get(8).setLayer(0);
     }
 
-    public List<Phosphene> getPhosphenes()
+    List<Phosphene> getPhosphenes()
     {
         List<Phosphene> result = new ArrayList<>();
         for (List<Phosphene> j: phospheneBuilder)

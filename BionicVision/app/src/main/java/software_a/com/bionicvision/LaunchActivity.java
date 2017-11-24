@@ -3,7 +3,6 @@ package software_a.com.bionicvision;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -69,7 +68,6 @@ public class LaunchActivity extends AppCompatActivity {
 
             String outAlg = settingsObj.getAlgorithm();
             int outAmount = settingsObj.getPhosAmount();
-            int outMaxList = settingsObj.getPhosMaxList();
             double outCameraFoV = settingsObj.getPhosCFoV();
             double outScreenFoV = settingsObj.getPhosSFoV();
             double outSpacing = settingsObj.getPhosSpacing();
@@ -80,7 +78,6 @@ public class LaunchActivity extends AppCompatActivity {
 
             settings.putString("Algorithm", outAlg);
             settings.putInt("PhospheneAmount", outAmount);
-            settings.putInt("PhospheneMaxListSize", outMaxList);
             settings.putDouble("PhospheneCameraFoV", outCameraFoV);
             settings.putDouble("PhospheneScreenFoV", outScreenFoV);
             settings.putDouble("PhospheneSpacing", outSpacing);
@@ -98,7 +95,6 @@ public class LaunchActivity extends AppCompatActivity {
             Bundle blankSettings = new Bundle();
             blankSettings.putString("Algorithm", "Blank");
             blankSettings.putInt("PhospheneAmount", 13);
-            blankSettings.putInt("PhospheneMaxListSize", 5);
             blankSettings.putDouble("PhospheneCameraFoV", 75);
             blankSettings.putDouble("PhospheneScreenFoV", 0);
             blankSettings.putDouble("PhospheneSpacing", 10.0);
